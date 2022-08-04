@@ -20,11 +20,21 @@ References:
     - https://pip.pypa.io/en/stable/reference/pip_install
 """
 
-import argparse
-import logging
-import sys
 
+import logging
+import os
+import sys
+import click
 from fiora import __version__
+from rich.console import Console
+from rich.progress import track
+import src.fiora.fiora_profiler as fp
+import time
+import mypy
+from rich.prompt import Prompt
+import glob
+import uuid
+import yaml
 
 __author__ = "Martin RÃ¸vang"
 __copyright__ = "Martin RÃ¸vang"
@@ -33,69 +43,10 @@ __license__ = "MIT"
 _logger = logging.getLogger(__name__)
 
 
-# ---- Python API ----
-# The functions defined in this section can be imported by users in their
-# Python scripts/interactive interpreter, e.g. via
-# `from fiora.skeleton import fib`,
-# when using this Python module as a library.
-
-
-def fib(n):
-    """Fibonacci example function
-
-    Args:
-      n (int): integer
-
-    Returns:
-      int: n-th Fibonacci number
-    """
-    assert n > 0
-    a, b = 1, 1
-    for _i in range(n - 1):
-        a, b = b, a + b
-    return a
-
-
 # ---- CLI ----
 # The functions defined in this section are wrappers around the main Python
 # API allowing them to be called directly from the terminal as a CLI
 # executable/script.
-
-
-def parse_args(args):
-    """Parse command line parameters
-
-    Args:
-      args (List[str]): command line parameters as list of strings
-          (for example  ``["--help"]``).
-
-    Returns:
-      :obj:`argparse.Namespace`: command line parameters namespace
-    """
-    parser = argparse.ArgumentParser(description="Just a Fibonacci demonstration")
-    parser.add_argument(
-        "--version",
-        action="version",
-        version="Fiora {ver}".format(ver=__version__),
-    )
-    parser.add_argument(dest="n", help="n-th Fibonacci number", type=int, metavar="INT")
-    parser.add_argument(
-        "-v",
-        "--verbose",
-        dest="loglevel",
-        help="set loglevel to INFO",
-        action="store_const",
-        const=logging.INFO,
-    )
-    parser.add_argument(
-        "-vv",
-        "--very-verbose",
-        dest="loglevel",
-        help="set loglevel to DEBUG",
-        action="store_const",
-        const=logging.DEBUG,
-    )
-    return parser.parse_args(args)
 
 
 def setup_logging(loglevel):
@@ -110,40 +61,124 @@ def setup_logging(loglevel):
     )
 
 
-def main(args):
-    """Wrapper allowing :func:`fib` to be called with string arguments in a CLI fashion
-
-    Instead of returning the value from :func:`fib`, it prints the result to the
-    ``stdout`` in a nicely formatted message.
-
-    Args:
-      args (List[str]): command line parameters as list of strings
-          (for example  ``["--verbose", "42"]``).
+@click.command()
+@click.option('--init', help='Initialize the project', is_flag=True, default = False)
+@click.option('--datasource', help='Add reference data', type=click.STRING, default = None)
+@click.option('--suite', help='Create a new test suite', type=click.STRING, default = None)
+@click.option('--vv', default=logging.INFO, help='Enable debug logging', is_flag=True, flag_value=logging.DEBUG)
+@click.option('--version', help='Version of the app', is_flag=True, default=False)
+def main(**kwargs):
     """
-    args = parse_args(args)
-    setup_logging(args.loglevel)
-    _logger.debug("Starting crazy calculations...")
-    print("The {}-th Fibonacci number is {}".format(args.n, fib(args.n)))
-    _logger.info("Script ends here")
+    Console script for fiora.
 
-
-def run():
-    """Calls :func:`main` passing the CLI arguments extracted from :obj:`sys.argv`
-
-    This function can be used as entry point to create console scripts with setuptools.
+    Argparse:
+        --count: Number of greetings.
+        --vv: Enable debug logging.
+        --version: Print version of the app.
     """
-    main(sys.argv[1:])
+    console = Console()
+
+    if kwargs['version']:
+        print("Fiora version: ",__version__)
+        return
+    
+    if kwargs['init']:
+        console.print("""
+ ______   __     ______     ______     ______    
+/\  ___\ /\ \   /\  __ \   /\  == \   /\  __ \   
+\ \  __\ \ \ \  \ \ \/\ \  \ \  __<   \ \  __ \  
+ \ \_\    \ \_\  \ \_____\  \ \_\ \_\  \ \_\ \_\ 
+  \/_/     \/_/   \/_____/   \/_/ /_/   \/_/\/_/ 
+                                                 
+""", style="bold red")
+        time.sleep(0.5)
+        console.print("Initializing the project", style="bold cyan")
+        # Initialize the project
+        # Make directory structure
+        console.print("Building directory structure", style="bold cyan")
+        os.makedirs("Fiora_strc", exist_ok=True)
+        os.makedirs("Fiora_strc/test_suites", exist_ok=True)
+        os.makedirs("Fiora_strc/datafiles", exist_ok=True)
+        os.makedirs("Fiora_strc/reports", exist_ok=True)
+        console.print("Completed \U0001F970 \U0001F60D", style="bold cyan")
+
+    if kwargs['datasource']:
+        if kwargs['datasource'] != "new":
+            console.print("Invalid command for datasource", style="bold red")
+        else:
+            datapath = Prompt.ask("""Insert path to data folder (abspath)""")
+            if os.path.isdir(datapath):
+                console.print(f"Connecting to data folder: {datapath}", style="bold cyan")
+                all_files_nii_compressed = glob.glob(os.path.join(datapath, "*.nii.gz"))
+                all_files_nii = glob.glob(os.path.join(datapath, "*.nii"))
+                all_files_dcm = glob.glob(os.path.join(datapath, "*.dcm"))
+                N_nifty_compressed = len(all_files_nii_compressed)
+                N_nifty = len(all_files_nii)
+                N_dcm = len(all_files_dcm)
+                total = N_nifty_compressed + N_nifty + N_dcm
+                if total == 0:
+                    console.print("No files found", style="bold red")
+                    return
+                if N_nifty_compressed > 0:
+                    data_type = "nii.gz"
+                    console.print(f"Found {N_nifty_compressed} compressed nifty files", style="bold cyan")
+                
+                if N_nifty > 0:
+                    data_type = "nii"
+                    console.print(f"Found {N_nifty} nifty file(s)", style="bold cyan")
+                
+                if N_dcm > 0:
+                    data_type = "dcm"
+                    console.print(f"Found {N_dcm} dcm files", style="bold cyan")
+                
+                if N_nifty_compressed > 0 and N_nifty > 0 and N_dcm > 0:
+                    console.print(f"Datafolder contains different data types, please ensure it only contains one type.", style="bold cyan")
+                    return
+                else:
+                    data_id = str(uuid.uuid4())
+                    with open(f'Fiora_strc/datafiles/{data_id}.yml', 'w') as f:
+                        f.write(
+                        f"""
+                        testing_pipeline:
+                            path: {datapath}
+                            type: {data_type}
+                        """)
+                console.print(f"ID: {data_id}, Insert this id in the test suite setup.", style="bold cyan")
+                console.print(f"Complete \U0001F970 \U0001F60D", style="bold cyan")
+            else:
+                console.print("Invalid path", style="bold red")
+        
+    if kwargs['suite']:
+        if kwargs['suite'] != "new":
+            console.print("Invalid command for suite", style="bold red")
+        else:
+            data_id = Prompt.ask("""Insert id from the datasource setup""")
+            suitename = Prompt.ask("""Give a name of your test suite""")
+            if os.path.isfile(f'Fiora_strc/datafiles/{data_id}.yml'):
+                console.print(f"Connecting datafile: {data_id}", style="bold cyan")
+                yaml_file = yaml.safe_load(open(f'Fiora_strc/datafiles/{data_id}.yml', 'r'))
+                console.print(f"Complete \U0001F970 \U0001F60D", style="bold cyan")
+                console.print(f"Starting data profiling", style="bold cyan")
+                data_path = yaml_file['testing_pipeline']['path']
+                
+                test_suite = fp.FioraProfiler(fiora_path=data_path, filetype=yaml_file['testing_pipeline']['type'], suitename=suitename)
+                test_suite.get_general_profile()
+                console.print(f"Complete \U0001F970 \U0001F60D", style="bold cyan")
+                console.print(f"Making test suite report", style="bold cyan")
+                test_suite.make_report()
+                console.print(f"Complete \U0001F970 \U0001F60D", style="bold cyan")
+
+            else:
+                console.print("Invalid id", style="bold red")
+            
+
+
+    setup_logging(kwargs['vv'])
+    # _logger.debug("Starting crazy calculations...")
+
+    # _logger.info("Script ends here")
+
 
 
 if __name__ == "__main__":
-    # ^  This is a guard statement that will prevent the following code from
-    #    being executed in the case someone imports this file instead of
-    #    executing it as a script.
-    #    https://docs.python.org/3/library/__main__.html
-
-    # After installing your project with pip, users can also run your Python
-    # modules as scripts via the ``-m`` flag, as defined in PEP 338::
-    #
-    #     python -m fiora.skeleton 42
-    #
-    run()
+    main()

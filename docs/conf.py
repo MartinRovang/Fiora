@@ -11,8 +11,9 @@ import os
 import sys
 import shutil
 
+sys.path.insert(0, os.path.abspath(".."))
 # -- Path setup --------------------------------------------------------------
-
+print(sys.executable)
 __location__ = os.path.dirname(__file__)
 
 # If extensions (or modules to document with autodoc) are in another directory,
@@ -158,10 +159,7 @@ html_theme = "alabaster"
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-html_theme_options = {
-    "sidebar_width": "300px",
-    "page_width": "1200px"
-}
+html_theme_options = {"sidebar_width": "300px", "page_width": "1200px"}
 
 # Add any paths that contain custom themes here, relative to this directory.
 # html_theme_path = []

@@ -46,36 +46,54 @@ font-size:12px;
 <span style="color:#FFFFFF;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FFFFFF;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FFFFFF;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FFFFFF;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FFFFFF;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FFFFFF;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FFFFFF;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FFFFFF;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FFFFFF;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FFFFFF;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span>
 <span style="color:#FFFFFF;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FFFFFF;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FFFFFF;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span>
 <span style="color:#FFFFFF;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FFFFFF;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FFFFFF;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FFFFFF;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FFFFFF;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span><span style="color:#FDFDFD;">@</span>
-</span></code></html>
+</span></code></html> 
+
+ Target: C:/Users/Gimpe/Desktop/data1
         
 |Test|Quantile | Min value | Max value|
 |-|-|-|-
-✅|q_05|0.659|1.881|
-❌|q1|1.66|20.476|
-❌|median|14.666|71.008|
-❌|q3|57.9|133.007|
-❌|q_95|100.987|204.787|
+❌|q_05|<code>0.659</code>|<code>1.881</code>|
+❌|q1|<code>1.584</code>|<code>20.476</code>|
+✅|median|<code>3.891</code>|<code>71.008</code>|
+✅|q3|<code>57.9</code>|<code>172.254</code>|
+❌|q_95|<code>100.987</code>|<code>330.11</code>|
 
 ---
-❌ mean must be greater than or equal to `32.721` and less than or equal to `84.267`
+
+</center>
+
+</center>
+✅ mean must be greater than or equal to <code>32.721</code> and less than or equal to <code>93.867</code>
 
 ---
-❌ maximum values must be greater than or equal to `235.925` and less than or equal to `1197.078`
+
+</center>
+❌ maximum values must be greater than or equal to <code>235.925</code> and less than or equal to <code>1631.673</code>
 
 ---
-❌ minimum values must be greater than or equal to `-33.51` and less than or equal to `-3.847`
+
+</center>
+✅ minimum values must be greater than or equal to <code>-69.971</code> and less than or equal to <code>-3.847</code>
 
 ---
-✅ percentage of foreground must be greater than or equal to `0.375` and less than or equal to `0.832`
+
+</center>
+❌ percentage of foreground must be greater than or equal to <code>0.375</code> and less than or equal to <code>0.832</code>
 
 ---
-✅ number of nans must be `0`
+
+</center>
+✅ number of nans must be <code>0</code>
 
 ---
-✅ number of infs must be `0`
+
+</center>
+✅ number of infs must be <code>0</code>
 
 ---
-Types: <span style="background-color: #0000FF">float64</span>✅ unique types must be `['float64']`
+
+</center>
+Types: <span style="background-color: #0000FF">float64</span>✅ unique types must be <code>['float64']</code>
 
 ---
 </center>

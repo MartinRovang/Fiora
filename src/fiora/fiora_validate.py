@@ -31,6 +31,6 @@ def validate(data_path, name_of_suite) -> Tuple[dict, str]:
         json.dump(json_target, outfile)
 
     reportmaker = gr.ReportMaker(name_of_suite)
-    results = reportmaker.generate_report_markdown_validation(id)
+    results = reportmaker.generate_report_markdown_validation(id, data_path)
 
     return results, id

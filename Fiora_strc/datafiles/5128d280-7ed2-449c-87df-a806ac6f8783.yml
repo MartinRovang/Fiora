@@ -1,0 +1,5 @@
+
+testing_pipeline:
+    path: C:/Users/Gimpe/Desktop/data2
+    type: nii.gz
+                        

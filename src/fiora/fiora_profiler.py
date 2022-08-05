@@ -77,21 +77,25 @@ def get_general_profile(data_path, name, filetype):
     for file in track(files, description="Profiling files", total=len(files)):
         data, affine = FioraProfiler.get_files_nifty(os.path.join(data_path, file))
         all_files_metrics["types"].append(str(data.dtype))
-        foreground_values = (data > 0).astype("int").sum()
-        background_values = (data <= 0).astype("int").sum()
+
+        all_files_metrics["max_value"].append(round(np.max(data.copy()), 3))
+        all_files_metrics["min_value"].append(round(np.min(data.copy()), 3))
+
+        foreground_values = (data.copy() > 0).astype("int").sum()
+        background_values = (data.copy() <= 0).astype("int").sum()
         percentage_foreground = foreground_values / (
             foreground_values + background_values
         )
-        nan_values = np.isnan(data).sum()
-        inf_values = (data == np.inf).astype("int").sum()
+        nan_values = np.isnan(data.copy()).sum()
+        inf_values = (data.copy() == np.inf).astype("int").sum()
 
-        data = data[data != 0]
-        q_05 = round(np.quantile(data, 0.05), 3)
-        q1 = round(np.quantile(data, 0.25), 3)
-        median = round(np.median(data), 3)
-        q3 = round(np.quantile(data, 0.75), 3)
-        q_95 = round(np.quantile(data, 0.95), 3)
-        mean = round(np.mean(data), 3)
+        data = data.copy()[data.copy() != 0]
+        q_05 = round(np.quantile(data.copy(), 0.05), 3)
+        q1 = round(np.quantile(data.copy(), 0.25), 3)
+        median = round(np.median(data.copy()), 3)
+        q3 = round(np.quantile(data.copy(), 0.75), 3)
+        q_95 = round(np.quantile(data.copy(), 0.95), 3)
+        mean = round(np.mean(data.copy()), 3)
         # append to list
         all_files_metrics["q_05"].append(q_05)
         all_files_metrics["q1"].append(q1)
@@ -99,8 +103,6 @@ def get_general_profile(data_path, name, filetype):
         all_files_metrics["q3"].append(q3)
         all_files_metrics["q_95"].append(q_95)
         all_files_metrics["mean"].append(mean)
-        all_files_metrics["max_value"].append(round(np.max(data), 3))
-        all_files_metrics["min_value"].append(round(np.min(data), 3))
         all_files_metrics["percentage_foreground"].append(
             round(percentage_foreground, 3)
         )

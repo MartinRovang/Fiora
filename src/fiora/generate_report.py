@@ -185,14 +185,14 @@ class ReportMaker:
         else:
             return False
 
-    def generate_report_markdown_validation(self, validation_id):
+    def generate_report_markdown_validation(self, validation_id, data_path):
         """Generate the report markdown for the validation"""
         json_test = self.load_json(
             f"Fiora_strc/validations/{self.suitename}_{validation_id}.json"
         )
         json_ref = self.load_json(f"Fiora_strc/test_suites/{self.suitename}.json")
         markdown_document = f"""<center>
-        {DESIGN}
+        {DESIGN} \n\n Target: {data_path}
         \n"""
         test_results_json = {}
         for key in json_ref[self.suitename]:
@@ -208,13 +208,14 @@ class ReportMaker:
                         json_test[self.suitename][key][quantile_test],
                     )
                     if test_result:
-                        markdown_document += f"✅|{quantile_ref}|{json_ref[self.suitename][key][quantile_ref]['min']}|{json_ref[self.suitename][key][quantile_ref]['max']}|\n"
+                        markdown_document += f"✅|{quantile_ref}|<code>{json_ref[self.suitename][key][quantile_ref]['min']}</code>|<code>{json_ref[self.suitename][key][quantile_ref]['max']}</code>|\n"
                     else:
-                        markdown_document += f"❌|{quantile_ref}|{json_ref[self.suitename][key][quantile_ref]['min']}|{json_ref[self.suitename][key][quantile_ref]['max']}|\n"
+                        markdown_document += f"❌|{quantile_ref}|<code>{json_ref[self.suitename][key][quantile_ref]['min']}</code>|<code>{json_ref[self.suitename][key][quantile_ref]['max']}</code>|\n"
                     test_results_json[key][quantile_ref] = test_result
 
                 markdown_document += "\n---\n"
 
+            markdown_document += "\n</center>\n"
             if key == "mean":
                 test_result = self.test_mean(
                     json_ref[self.suitename], json_test[self.suitename]
@@ -222,9 +223,9 @@ class ReportMaker:
                 min_val = json_ref[self.suitename][key]["min"]
                 max_val = json_ref[self.suitename][key]["max"]
                 if test_result:
-                    markdown_document += f"✅ mean must be greater than or equal to `{min_val}` and less than or equal to `{max_val}`\n"
+                    markdown_document += f"✅ mean must be greater than or equal to <code>{min_val}</code> and less than or equal to <code>{max_val}</code>\n"
                 else:
-                    markdown_document += f"❌ mean must be greater than or equal to `{min_val}` and less than or equal to `{max_val}`\n"
+                    markdown_document += f"❌ mean must be greater than or equal to <code>{min_val}</code> and less than or equal to <code>{max_val}</code>\n"
                 test_results_json[key] = test_result
                 markdown_document += "\n---\n"
 
@@ -235,9 +236,9 @@ class ReportMaker:
                     json_ref[self.suitename], json_test[self.suitename]
                 )
                 if test_result:
-                    markdown_document += f"✅ maximum values must be greater than or equal to `{min_val}` and less than or equal to `{max_val}`\n"
+                    markdown_document += f"✅ maximum values must be greater than or equal to <code>{min_val}</code> and less than or equal to <code>{max_val}</code>\n"
                 else:
-                    markdown_document += f"❌ maximum values must be greater than or equal to `{min_val}` and less than or equal to `{max_val}`\n"
+                    markdown_document += f"❌ maximum values must be greater than or equal to <code>{min_val}</code> and less than or equal to <code>{max_val}</code>\n"
                 test_results_json[key] = test_result
                 markdown_document += "\n---\n"
 
@@ -248,9 +249,9 @@ class ReportMaker:
                     json_ref[self.suitename], json_test[self.suitename]
                 )
                 if test_result:
-                    markdown_document += f"✅ minimum values must be greater than or equal to `{min_val}` and less than or equal to `{max_val}`\n"
+                    markdown_document += f"✅ minimum values must be greater than or equal to <code>{min_val}</code> and less than or equal to <code>{max_val}</code>\n"
                 else:
-                    markdown_document += f"❌ minimum values must be greater than or equal to `{min_val}` and less than or equal to `{max_val}`\n"
+                    markdown_document += f"❌ minimum values must be greater than or equal to <code>{min_val}</code> and less than or equal to <code>{max_val}</code>\n"
 
                 test_results_json[key] = test_result
                 markdown_document += "\n---\n"
@@ -262,9 +263,9 @@ class ReportMaker:
                     json_ref[self.suitename], json_test[self.suitename]
                 )
                 if test_result:
-                    markdown_document += f"✅ percentage of foreground must be greater than or equal to `{min_val}` and less than or equal to `{max_val}`\n"
+                    markdown_document += f"✅ percentage of foreground must be greater than or equal to <code>{min_val}</code> and less than or equal to <code>{max_val}</code>\n"
                 else:
-                    markdown_document += f"❌ percentage of foreground must be greater than or equal to `{min_val}` and less than or equal to `{max_val}`\n"
+                    markdown_document += f"❌ percentage of foreground must be greater than or equal to <code>{min_val}</code> and less than or equal to <code>{max_val}</code>\n"
                 test_results_json[key] = test_result
                 markdown_document += "\n---\n"
 
@@ -274,9 +275,13 @@ class ReportMaker:
                     json_ref[self.suitename], json_test[self.suitename]
                 )
                 if test_result:
-                    markdown_document += f"✅ number of nans must be `{total}`\n"
+                    markdown_document += (
+                        f"✅ number of nans must be <code>{total}</code>\n"
+                    )
                 else:
-                    markdown_document += f"❌ number of nans must be `{total}`\n"
+                    markdown_document += (
+                        f"❌ number of nans must be <code>{total}</code>\n"
+                    )
                 test_results_json[key] = test_result
                 markdown_document += "\n---\n"
 
@@ -286,9 +291,13 @@ class ReportMaker:
                     json_ref[self.suitename], json_test[self.suitename]
                 )
                 if test_result:
-                    markdown_document += f"✅ number of infs must be `{total}`\n"
+                    markdown_document += (
+                        f"✅ number of infs must be <code>{total}</code>\n"
+                    )
                 else:
-                    markdown_document += f"❌ number of infs must be `{total}`\n"
+                    markdown_document += (
+                        f"❌ number of infs must be <code>{total}</code>\n"
+                    )
                 test_results_json[key] = test_result
                 markdown_document += "\n---\n"
 
@@ -303,9 +312,13 @@ class ReportMaker:
                         f"""<span style="background-color: #0000FF">{typ_}</span>"""
                     )
                 if test_result:
-                    markdown_document += f"✅ unique types must be `{unique_types}`\n"
+                    markdown_document += (
+                        f"✅ unique types must be <code>{unique_types}</code>\n"
+                    )
                 else:
-                    markdown_document += f"❌ unique types must be `{unique_types}`\n"
+                    markdown_document += (
+                        f"❌ unique types must be <code>{unique_types}</code>\n"
+                    )
                 test_results_json[key] = test_result
                 markdown_document += "\n---\n"
         markdown_document += "</center>"

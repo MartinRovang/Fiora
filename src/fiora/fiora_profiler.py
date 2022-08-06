@@ -111,23 +111,23 @@ def get_general_profile(data_path, name, filetype):
 
     # add min and max for each category
     json_suite_test_file[name]["distribution"] = {
-        "q_05": {
+        "0.05": {
             "min": min(all_files_metrics["q_05"]),
             "max": max(all_files_metrics["q_05"]),
         },
-        "q1": {
+        "Q1": {
             "min": min(all_files_metrics["q1"]),
             "max": max(all_files_metrics["q1"]),
         },
-        "median": {
+        "Median": {
             "min": min(all_files_metrics["median"]),
             "max": max(all_files_metrics["median"]),
         },
-        "q3": {
+        "Q3": {
             "min": min(all_files_metrics["q3"]),
             "max": max(all_files_metrics["q3"]),
         },
-        "q_95": {
+        "0.95": {
             "min": min(all_files_metrics["q_95"]),
             "max": max(all_files_metrics["q_95"]),
         },

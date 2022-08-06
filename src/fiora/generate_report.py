@@ -3,7 +3,6 @@ import os
 import numpy as np
 import mypy
 import glob
-from src.fiora.ascii_design import DESIGN
 
 
 class ReportMaker:
@@ -19,73 +18,6 @@ class ReportMaker:
         with open(json_path, "r") as infile:
             json_suite_test_file = json.load(infile)
         return json_suite_test_file
-
-    def generate_report_markdown(self):
-        """Generate the report in markdown format"""
-        json_path = f"Fiora_strc/test_suites/{self.suitename}.json"
-        json_file = self.load_json(json_path)
-        markdown_document = """<center>\n\n"""
-        for key in json_file[self.suitename]:
-            if key == "distribution":
-                markdown_document += "|Quantile | Min value | Max value|\n"
-                markdown_document += "|-|-|-\n"
-                for metric_type in json_file[self.suitename][key]:
-                    markdown_document += f"| {metric_type} | {json_file[self.suitename][key][metric_type]['min']} | {json_file[self.suitename][key][metric_type]['max']}\n"
-                markdown_document += "\n---\n"
-
-            if key == "mean":
-                max_val = json_file[self.suitename][key]["max"]
-                min_val = json_file[self.suitename][key]["min"]
-                markdown_document += f"mean must be greater than or equal to `{min_val}` and less than or equal to `{max_val}`\n"
-                markdown_document += "\n---\n"
-
-            if key == "max_values":
-                max_val = json_file[self.suitename][key]["max"]
-                min_val = json_file[self.suitename][key]["min"]
-
-                markdown_document += f"maximum value must be greater than or equal to `{min_val}` and less than or equal to `{max_val}`\n"
-                markdown_document += "\n---\n"
-
-            if key == "min_values":
-                max_val = json_file[self.suitename][key]["max"]
-                min_val = json_file[self.suitename][key]["min"]
-
-                markdown_document += f"minimum value must be greater than or equal to `{min_val}` and less than or equal to `{max_val}`\n"
-                markdown_document += "\n---\n"
-
-            if key == "percentage_foreground":
-                max_val = json_file[self.suitename][key]["max"]
-                min_val = json_file[self.suitename][key]["min"]
-
-                markdown_document += f"percentage of foreground value must be greater than or equal to `{min_val}` and less than or equal to `{max_val}`\n"
-                markdown_document += "\n---\n"
-
-            if key == "num_nans":
-                total = json_file[self.suitename][key]["total"]
-
-                markdown_document += f"Total number of nans `{total}`\n"
-                markdown_document += "\n---\n"
-
-            if key == "num_infs":
-                total = json_file[self.suitename][key]["total"]
-
-                markdown_document += f"Total number of infs `{total}`\n"
-                markdown_document += "\n---\n"
-
-            if key == "types":
-                all_types = json_file[self.suitename][key]["unique_types"]
-                markdown_document += "Types: "
-                for typ_ in all_types:
-                    markdown_document += (
-                        f"""<span style="background-color: #0000FF">{typ_}</span>"""
-                    )
-                markdown_document += "\n---\n"
-
-        # save as markdown file
-        with open(
-            f"Fiora_strc/test_suites/reports/{self.suitename}.md", "w"
-        ) as outfile:
-            outfile.write(markdown_document)
 
     def test_mean(self, json_ref, json_test):
         """
@@ -191,31 +123,90 @@ class ReportMaker:
             f"Fiora_strc/validations/{self.suitename}_{validation_id}.json"
         )
         json_ref = self.load_json(f"Fiora_strc/test_suites/{self.suitename}.json")
-        markdown_document = f"""<center>
-        {DESIGN} \n\n Target: {data_path}
-        \n"""
+        markdown_document = f"""<center><img src="https://github.com/MartinRovang/Fiora/blob/master/flc_design2022080460426.jpg?raw=true" width="100">  <br><br> Target: <p>{data_path}</p>
+        <br>"""
         test_results_json = {}
         for key in json_ref[self.suitename]:
+            markdown_document += "<hr><br>"
+
             if key == "distribution":
                 test_results_json[key] = {}
-                markdown_document += "|Test|Quantile | Min value | Max value|\n"
-                markdown_document += "|-|-|-|-\n"
+                markdown_document += """ 
+                <table>
+                <thead>
+                    <tr class="header">
+                        <th>Test</th>
+                        <th>Quantile</th>
+                        <th>Min value</th>
+                        <th>Max value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                """
+                i = 0
                 for quantile_ref, quantile_test in zip(
                     json_ref[self.suitename][key], json_test[self.suitename][key]
                 ):
+                    i += 1
                     test_result = self.test_distribution(
                         json_ref[self.suitename][key][quantile_ref],
                         json_test[self.suitename][key][quantile_test],
                     )
                     if test_result:
-                        markdown_document += f"✅|{quantile_ref}|<code>{json_ref[self.suitename][key][quantile_ref]['min']}</code>|<code>{json_ref[self.suitename][key][quantile_ref]['max']}</code>|\n"
+                        # if even
+                        if i % 2 == 0:
+                            markdown_document += f"""
+                            <tr class="even">
+                                <td>✅</td>
+                                <td>{quantile_ref}</td>
+                                <td>{json_ref[self.suitename][key][quantile_ref]["min"]}</td>
+                                <td>{json_ref[self.suitename][key][quantile_ref]["max"]}</td>
+                            </tr>
+                            """
+                        # if odd
+                        else:
+                            markdown_document += f"""
+                            <tr class="odd">
+                                <td>✅</td>
+                                <td>{quantile_ref}</td>
+                                <td>{json_ref[self.suitename][key][quantile_ref]["min"]}</td>
+                                <td>{json_ref[self.suitename][key][quantile_ref]["max"]}</td>
+                            </tr>
+
+
+                            """
+
                     else:
-                        markdown_document += f"❌|{quantile_ref}|<code>{json_ref[self.suitename][key][quantile_ref]['min']}</code>|<code>{json_ref[self.suitename][key][quantile_ref]['max']}</code>|\n"
+                        # if odd
+                        if i % 3 == 0:
+                            markdown_document += f"""
+                                <tr class="odd">
+                                    <td>❌</td>
+                                    <td>{quantile_ref}</td>
+                                    <td>{json_ref[self.suitename][key][quantile_ref]['min']}</td>
+                                    <td>{json_ref[self.suitename][key][quantile_ref]['max']}</td>
+                                </tr>
+
+                                
+                                """
+                        # if even
+                        else:
+                            markdown_document += f"""
+                                <tr class="even">
+                                    <td>❌</td>
+                                    <td>{quantile_ref}</td>
+                                    <td>{json_ref[self.suitename][key][quantile_ref]['min']}</td>
+                                    <td>{json_ref[self.suitename][key][quantile_ref]['max']}</td>
+                                </tr>
+
+                                """
                     test_results_json[key][quantile_ref] = test_result
 
-                markdown_document += "\n---\n"
+                markdown_document += """
+                                </tbody>
+                                </table>"""
+                markdown_document += "</center><br>"
 
-            markdown_document += "\n</center>\n"
             if key == "mean":
                 test_result = self.test_mean(
                     json_ref[self.suitename], json_test[self.suitename]
@@ -227,7 +218,6 @@ class ReportMaker:
                 else:
                     markdown_document += f"❌ mean must be greater than or equal to <code>{min_val}</code> and less than or equal to <code>{max_val}</code>\n"
                 test_results_json[key] = test_result
-                markdown_document += "\n---\n"
 
             if key == "max_values":
                 min_val = json_ref[self.suitename][key]["min"]
@@ -240,7 +230,6 @@ class ReportMaker:
                 else:
                     markdown_document += f"❌ maximum values must be greater than or equal to <code>{min_val}</code> and less than or equal to <code>{max_val}</code>\n"
                 test_results_json[key] = test_result
-                markdown_document += "\n---\n"
 
             if key == "min_values":
                 min_val = json_ref[self.suitename][key]["min"]
@@ -254,7 +243,6 @@ class ReportMaker:
                     markdown_document += f"❌ minimum values must be greater than or equal to <code>{min_val}</code> and less than or equal to <code>{max_val}</code>\n"
 
                 test_results_json[key] = test_result
-                markdown_document += "\n---\n"
 
             if key == "percentage_foreground":
                 min_val = json_ref[self.suitename][key]["min"]
@@ -267,8 +255,6 @@ class ReportMaker:
                 else:
                     markdown_document += f"❌ percentage of foreground must be greater than or equal to <code>{min_val}</code> and less than or equal to <code>{max_val}</code>\n"
                 test_results_json[key] = test_result
-                markdown_document += "\n---\n"
-
             if key == "num_nans":
                 total = json_ref[self.suitename][key]["total"]
                 test_result = self.test_num_nans(
@@ -283,7 +269,6 @@ class ReportMaker:
                         f"❌ number of nans must be <code>{total}</code>\n"
                     )
                 test_results_json[key] = test_result
-                markdown_document += "\n---\n"
 
             if key == "num_infs":
                 total = json_ref[self.suitename][key]["total"]
@@ -299,7 +284,6 @@ class ReportMaker:
                         f"❌ number of infs must be <code>{total}</code>\n"
                     )
                 test_results_json[key] = test_result
-                markdown_document += "\n---\n"
 
             if key == "types":
                 unique_types = json_ref[self.suitename][key]["unique_types"]
@@ -308,9 +292,7 @@ class ReportMaker:
                 )
                 markdown_document += "Types: "
                 for typ_ in unique_types:
-                    markdown_document += (
-                        f"""<span style="background-color: #0000FF">{typ_}</span>"""
-                    )
+                    markdown_document += f"""<span style="background-color: #0000FF; color:white">{typ_}</span>"""
                 if test_result:
                     markdown_document += (
                         f"✅ unique types must be <code>{unique_types}</code>\n"
@@ -320,14 +302,106 @@ class ReportMaker:
                         f"❌ unique types must be <code>{unique_types}</code>\n"
                     )
                 test_results_json[key] = test_result
-                markdown_document += "\n---\n"
-        markdown_document += "</center>"
+        markdown_document += "</hr>"
         # save as markdown file
         with open(
-            f"Fiora_strc/validations/reports/{self.suitename}_{validation_id}.md",
+            f"Fiora_strc/validations/reports/{self.suitename}_{validation_id}.html",
             "w",
             encoding="utf-8",
         ) as outfile:
             outfile.write(markdown_document)
 
         return test_results_json
+
+    def generate_report_markdown(self):
+        """Generate the report in markdown format"""
+        json_path = f"Fiora_strc/test_suites/{self.suitename}.json"
+        json_file = self.load_json(json_path)
+        markdown_document = """<center><img src="https://github.com/MartinRovang/Fiora/blob/master/flc_design2022080460426.jpg?raw=true" width="100"> <br><br>"""
+        for key in json_file[self.suitename]:
+            markdown_document += "<hr><br>"
+
+            if key == "distribution":
+                markdown_document += """ 
+                <table>
+                <thead>
+                    <tr class="header">
+                        <th>Quantile</th>
+                        <th>Min value</th>
+                        <th>Max value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                """
+                i = 0
+                for quantile_ref in json_file[self.suitename][key]:
+                    i += 1
+                    # if even
+                    if i % 2 == 0:
+                        markdown_document += f"""
+                        <tr class="even">
+                            <td>{quantile_ref}</td>
+                            <td>{json_file[self.suitename][key][quantile_ref]["min"]}</td>
+                            <td>{json_file[self.suitename][key][quantile_ref]["max"]}</td>
+                        </tr>
+                        """
+                    # if odd
+                    else:
+                        markdown_document += f"""
+                        <tr class="odd">
+                            <td>{quantile_ref}</td>
+                            <td>{json_file[self.suitename][key][quantile_ref]["min"]}</td>
+                            <td>{json_file[self.suitename][key][quantile_ref]["max"]}</td>
+                        </tr>
+                        """
+
+                markdown_document += """
+                                </tbody>
+                                </table>"""
+                markdown_document += "</center><br>"
+
+            if key == "mean":
+                max_val = json_file[self.suitename][key]["max"]
+                min_val = json_file[self.suitename][key]["min"]
+                markdown_document += f"mean must be greater than or equal to <code>{min_val}</code> and less than or equal to <code>{max_val}</code>"
+
+            if key == "max_values":
+                max_val = json_file[self.suitename][key]["max"]
+                min_val = json_file[self.suitename][key]["min"]
+
+                markdown_document += f"maximum value must be greater than or equal to <code>{min_val}</code> and less than or equal to <code>{max_val}</code>"
+
+            if key == "min_values":
+                max_val = json_file[self.suitename][key]["max"]
+                min_val = json_file[self.suitename][key]["min"]
+
+                markdown_document += f"minimum value must be greater than or equal to <code>{min_val}</code> and less than or equal to <code>{max_val}</code>"
+
+            if key == "percentage_foreground":
+                max_val = json_file[self.suitename][key]["max"]
+                min_val = json_file[self.suitename][key]["min"]
+
+                markdown_document += f"percentage of foreground value must be greater than or equal to <code>{min_val}</code> and less than or equal to <code>{max_val}</code>"
+
+            if key == "num_nans":
+                total = json_file[self.suitename][key]["total"]
+
+                markdown_document += f"Total number of nans <code>{total}</code>"
+
+            if key == "num_infs":
+                total = json_file[self.suitename][key]["total"]
+
+                markdown_document += f"Total number of infs <code>{total}</code>"
+
+            if key == "types":
+                all_types = json_file[self.suitename][key]["unique_types"]
+                markdown_document += "Types: "
+                for typ_ in all_types:
+                    markdown_document += f"""<span style="background-color: #0000FF; color:white">{typ_}</span>"""
+            markdown_document += "</hr><br>"
+
+        # save as markdown file
+        with open(
+            f"Fiora_strc/test_suites/reports/{self.suitename}.html", "w"
+        ) as outfile:
+            outfile.write(markdown_document)

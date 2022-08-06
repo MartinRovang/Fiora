@@ -72,6 +72,9 @@ def get_general_profile(data_path, name, filetype):
         "num_nans": [],
         "num_infs": [],
         "types": [],
+        "shapes_ax1": [],
+        "shapes_ax2": [],
+        "shapes_ax3": [],
     }
 
     for file in track(files, description="Profiling files", total=len(files)):
@@ -80,6 +83,9 @@ def get_general_profile(data_path, name, filetype):
 
         all_files_metrics["max_value"].append(round(np.max(data.copy()), 3))
         all_files_metrics["min_value"].append(round(np.min(data.copy()), 3))
+        all_files_metrics["shapes_ax1"].append(data.shape[0])
+        all_files_metrics["shapes_ax2"].append(data.shape[1])
+        all_files_metrics["shapes_ax3"].append(data.shape[2])
 
         foreground_values = (data.copy() > 0).astype("int").sum()
         background_values = (data.copy() <= 0).astype("int").sum()
@@ -156,6 +162,17 @@ def get_general_profile(data_path, name, filetype):
     }
     json_suite_test_file[name]["types"] = {
         "unique_types": list(np.unique(all_files_metrics["types"]))
+    }
+
+    json_suite_test_file[name]["shapes_ax1"] = {
+        "unique_shapes": [int(x) for x in np.unique(all_files_metrics["shapes_ax1"])]
+    }
+
+    json_suite_test_file[name]["shapes_ax2"] = {
+        "unique_shapes": [int(x) for x in np.unique(all_files_metrics["shapes_ax2"])]
+    }
+    json_suite_test_file[name]["shapes_ax3"] = {
+        "unique_shapes": [int(x) for x in np.unique(all_files_metrics["shapes_ax3"])]
     }
 
     return json_suite_test_file

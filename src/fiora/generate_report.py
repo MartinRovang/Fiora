@@ -25,10 +25,9 @@ class ReportMaker:
         """
         mean_ref = json_ref["mean"]
         mean_test = json_test["mean"]
-        if mean_ref["max"] >= mean_test["max"] and mean_ref["min"] <= mean_test["min"]:
-            return True
-        else:
-            return False
+        return (
+            mean_ref["max"] >= mean_test["max"] and mean_ref["min"] <= mean_test["min"]
+        )
 
     def test_max_values(self, json_ref, json_test):
         """
@@ -36,13 +35,10 @@ class ReportMaker:
         """
         max_values_ref = json_ref["max_values"]
         max_values_test = json_test["max_values"]
-        if (
+        return (
             max_values_ref["max"] >= max_values_test["max"]
             and max_values_ref["min"] <= max_values_test["min"]
-        ):
-            return True
-        else:
-            return False
+        )
 
     def test_min_values(self, json_ref, json_test):
         """
@@ -50,13 +46,10 @@ class ReportMaker:
         """
         min_values_ref = json_ref["min_values"]
         min_values_test = json_test["min_values"]
-        if (
+        return (
             min_values_ref["max"] >= min_values_test["max"]
             and min_values_ref["min"] <= min_values_test["min"]
-        ):
-            return True
-        else:
-            return False
+        )
 
     def test_percentage_foreground(self, json_ref, json_test):
         """
@@ -64,13 +57,10 @@ class ReportMaker:
         """
         percentage_foreground_ref = json_ref["percentage_foreground"]
         percentage_foreground_test = json_test["percentage_foreground"]
-        if (
+        return (
             percentage_foreground_ref["max"] >= percentage_foreground_test["max"]
             and percentage_foreground_ref["min"] <= percentage_foreground_test["min"]
-        ):
-            return True
-        else:
-            return False
+        )
 
     def test_num_nans(self, json_ref, json_test):
         """
@@ -78,10 +68,7 @@ class ReportMaker:
         """
         num_nans_ref = json_ref["num_nans"]
         num_nans_test = json_test["num_nans"]
-        if num_nans_ref["total"] == num_nans_test["total"]:
-            return True
-        else:
-            return False
+        return num_nans_ref["total"] == num_nans_test["total"]
 
     def test_num_infs(self, json_ref, json_test):
         """
@@ -89,10 +76,7 @@ class ReportMaker:
         """
         num_infs_ref = json_ref["num_infs"]
         num_infs_test = json_test["num_infs"]
-        if num_infs_ref["total"] == num_infs_test["total"]:
-            return True
-        else:
-            return False
+        return num_infs_ref["total"] == num_infs_test["total"]
 
     def test_types(self, json_ref, json_test):
         """
@@ -100,22 +84,50 @@ class ReportMaker:
         """
         types_ref = json_ref["types"]
         types_test = json_test["types"]
-        if types_ref["unique_types"] == types_test["unique_types"]:
-            return True
-        else:
-            return False
+        # if type value in test exist in reference value
+        return set(types_ref.keys()).issubset(set(types_test.keys()))
 
     def test_distribution(self, dist_metric_ref, dist_metric_test):
         """
         Test the distribution of the test suite
         """
-        if (
+        return (
             dist_metric_ref["max"] >= dist_metric_test["max"]
             and dist_metric_ref["min"] <= dist_metric_test["min"]
-        ):
-            return True
-        else:
-            return False
+        )
+
+    def test_shape_ax1(self, json_ref, json_test):
+        """
+        Test the unique shape of the test suite
+        """
+        unique_shape_ref = json_ref["shapes_ax1"]
+        unique_shape_test = json_test["shapes_ax1"]
+        # check if values in test exists in reference
+        A = list(unique_shape_ref.values())[0]
+        B = list(unique_shape_test.values())[0]
+        return set(A).issubset(set(B))
+
+    def test_shape_ax2(self, json_ref, json_test):
+        """
+        Test the unique shape of the test suite
+        """
+        unique_shape_ref = json_ref["shapes_ax2"]
+        unique_shape_test = json_test["shapes_ax2"]
+        # check if values in test exists in reference
+        A = list(unique_shape_ref.values())[0]
+        B = list(unique_shape_test.values())[0]
+        return set(A).issubset(set(B))
+
+    def test_shape_ax3(self, json_ref, json_test):
+        """
+        Test the unique shape of the test suite
+        """
+        unique_shape_ref = json_ref["shapes_ax3"]
+        unique_shape_test = json_test["shapes_ax3"]
+        # check if values in test exists in reference
+        A = list(unique_shape_ref.values())[0]
+        B = list(unique_shape_test.values())[0]
+        return set(A).issubset(set(B))
 
     def generate_report_markdown_validation(self, validation_id, data_path):
         """Generate the report markdown for the validation"""
@@ -290,18 +302,59 @@ class ReportMaker:
                 test_result = self.test_types(
                     json_ref[self.suitename], json_test[self.suitename]
                 )
-                markdown_document += "Types: "
-                for typ_ in unique_types:
-                    markdown_document += f"""<span style="background-color: #0000FF; color:white">{typ_}</span>"""
                 if test_result:
-                    markdown_document += (
-                        f"✅ unique types must be <code>{unique_types}</code>\n"
-                    )
+                    markdown_document += "✅ types must be any of the following "
+                else:
+                    markdown_document += "❌ types must be any of the following   "
+                for typ_ in unique_types:
+                    markdown_document += f"""<span style="background-color: #0000FF; color:white">{typ_}</span> """
+                test_results_json[key] = test_result
+
+            if key == "shapes_ax1":
+                unique_shapes = json_ref[self.suitename][key]["unique_shapes"]
+                test_result = self.test_shape_ax1(
+                    json_ref[self.suitename], json_test[self.suitename]
+                )
+                if test_result:
+                    markdown_document += "✅ shapes must be any of the following "
                 else:
                     markdown_document += (
-                        f"❌ unique types must be <code>{unique_types}</code>\n"
+                        "❌ unique shapes must be any of the following   "
                     )
+                for shape_ in unique_shapes:
+                    markdown_document += f"""<span style="background-color: #0000FF; color:white">{shape_}</span> """
                 test_results_json[key] = test_result
+
+            if key == "shapes_ax2":
+                unique_shapes = json_ref[self.suitename][key]["unique_shapes"]
+                test_result = self.test_shape_ax2(
+                    json_ref[self.suitename], json_test[self.suitename]
+                )
+                if test_result:
+                    markdown_document += "✅ shapes must be any of the following "
+                else:
+                    markdown_document += (
+                        "❌ unique shapes must be any of the following   "
+                    )
+                for shape_ in unique_shapes:
+                    markdown_document += f"""<span style="background-color: #0000FF; color:white">{shape_}</span> """
+                test_results_json[key] = test_result
+
+            if key == "shapes_ax3":
+                unique_shapes = json_ref[self.suitename][key]["unique_shapes"]
+                test_result = self.test_shape_ax3(
+                    json_ref[self.suitename], json_test[self.suitename]
+                )
+                if test_result:
+                    markdown_document += "✅ shapes must be any of the following "
+                else:
+                    markdown_document += (
+                        "❌ unique shapes must be any of the following   "
+                    )
+                for shape_ in unique_shapes:
+                    markdown_document += f"""<span style="background-color: #0000FF; color:white">{shape_}</span> """
+                test_results_json[key] = test_result
+
         markdown_document += "</hr>"
         # save as markdown file
         with open(
@@ -397,7 +450,27 @@ class ReportMaker:
                 all_types = json_file[self.suitename][key]["unique_types"]
                 markdown_document += "Types: "
                 for typ_ in all_types:
-                    markdown_document += f"""<span style="background-color: #0000FF; color:white">{typ_}</span>"""
+                    markdown_document += f"""<span style="background-color: #0000FF; color:white">{typ_}</span> """
+
+            if key == "shapes_ax1":
+                unique_shapes = json_file[self.suitename][key]["unique_shapes"]
+                markdown_document += "Shapes ax 1: "
+                for shape_ in unique_shapes:
+                    markdown_document += f"""<span style="background-color: #0000FF; color:white">{shape_}</span> """
+
+            if key == "shapes_ax2":
+                unique_shapes = json_file[self.suitename][key]["unique_shapes"]
+                markdown_document += "Shapes ax 2: "
+                for shape_ in unique_shapes:
+                    markdown_document += f"""<span style="background-color: #0000FF; color:white">{shape_}</span> """
+
+            if key == "shapes_ax3":
+                unique_shapes = json_file[self.suitename][key]["unique_shapes"]
+                markdown_document += "Shapes ax 3: "
+                for shape_ in unique_shapes:
+                    markdown_document += f"""<span style="background-color: #0000FF; color:white">{shape_}</span> """
+
+            # at the end
             markdown_document += "</hr><br>"
 
         # save as markdown file

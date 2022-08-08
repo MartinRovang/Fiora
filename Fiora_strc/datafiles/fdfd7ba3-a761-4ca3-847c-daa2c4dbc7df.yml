@@ -1,0 +1,5 @@
+
+testing_pipeline:
+    path: C:/Users/MartinR/Desktop/data
+    type: nii.gz
+                        

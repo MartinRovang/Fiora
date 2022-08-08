@@ -26,11 +26,11 @@ def validate(data_path, name_of_suite) -> Tuple[dict, str]:
     data_type = yaml_file["testing_pipeline"]["type"]
     json_target = fp.get_general_profile(data_path, name_of_suite, data_type)
     json_target["data_target"] = data_path
-    id = uuid.uuid4()
-    with open(f"Fiora_strc/validations/{name_of_suite}_{id}.json", "w") as outfile:
+    validation_id = str(uuid.uuid4())
+    with open(f"Fiora_strc/validations/{name_of_suite}_{validation_id}.json", "w") as outfile:
         json.dump(json_target, outfile)
 
-    reportmaker = gr.ReportMaker(name_of_suite)
-    results = reportmaker.generate_report_markdown_validation(id, data_path)
+    reportmaker = gr.ReportMaker(name_of_suite, data_path, validation_id)
+    results = reportmaker.generate_report_markdown_validation(validation_id, data_path)
 
-    return results, id
+    return results, validation_id

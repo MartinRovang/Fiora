@@ -4,7 +4,7 @@ import numpy as np
 import json
 from rich.progress import track
 import src.fiora.generate_report as gr
-
+from src.fiora.metrics import MetricBase
 
 class FioraProfiler:
     """The profiler used to analyze the data and generate the tests metrics."""
@@ -57,122 +57,22 @@ class FioraProfiler:
 
 def get_general_profile(data_path, name, filetype):
     """Get the general profile of the data."""
-    json_suite_test_file = {name: {}}
     files = [x for x in os.listdir(data_path) if x.endswith(filetype)]
-    all_files_metrics = {
-        "q_05": [],
-        "q1": [],
-        "median": [],
-        "q3": [],
-        "q_95": [],
-        "mean": [],
-        "max_value": [],
-        "min_value": [],
-        "percentage_foreground": [],
-        "num_nans": [],
-        "num_infs": [],
-        "types": [],
-        "shapes_ax1": [],
-        "shapes_ax2": [],
-        "shapes_ax3": [],
-    }
+    metric_base = MetricBase(name)
 
     for file in track(files, description="Profiling files", total=len(files)):
         data, affine = FioraProfiler.get_files_nifty(os.path.join(data_path, file))
-        all_files_metrics["types"].append(str(data.dtype))
 
-        all_files_metrics["max_value"].append(round(np.max(data.copy()), 3))
-        all_files_metrics["min_value"].append(round(np.min(data.copy()), 3))
-        all_files_metrics["shapes_ax1"].append(data.shape[0])
-        all_files_metrics["shapes_ax2"].append(data.shape[1])
-        all_files_metrics["shapes_ax3"].append(data.shape[2])
+        metric_base.get_types(data)
+        metric_base.get_max_value(data)
+        metric_base.get_min_value(data)
+        metric_base.get_shapes(data)
+        metric_base.get_mean(data)
+        metric_base.get_distribution(data)
+        metric_base.get_percentage_foreground(data)
+        metric_base.get_num_nans(data)
+        metric_base.get_num_infs(data)
 
-        foreground_values = (data.copy() > 0).astype("int").sum()
-        background_values = (data.copy() <= 0).astype("int").sum()
-        percentage_foreground = foreground_values / (
-            foreground_values + background_values
-        )
-        nan_values = np.isnan(data.copy()).sum()
-        inf_values = (data.copy() == np.inf).astype("int").sum()
-
-        data = data.copy()[data.copy() != 0]
-        q_05 = round(np.quantile(data.copy(), 0.05), 3)
-        q1 = round(np.quantile(data.copy(), 0.25), 3)
-        median = round(np.median(data.copy()), 3)
-        q3 = round(np.quantile(data.copy(), 0.75), 3)
-        q_95 = round(np.quantile(data.copy(), 0.95), 3)
-        mean = round(np.mean(data.copy()), 3)
-        # append to list
-        all_files_metrics["q_05"].append(q_05)
-        all_files_metrics["q1"].append(q1)
-        all_files_metrics["median"].append(median)
-        all_files_metrics["q3"].append(q3)
-        all_files_metrics["q_95"].append(q_95)
-        all_files_metrics["mean"].append(mean)
-        all_files_metrics["percentage_foreground"].append(
-            round(percentage_foreground, 3)
-        )
-        all_files_metrics["num_nans"].append(nan_values)
-        all_files_metrics["num_infs"].append(inf_values)
-
-    # add min and max for each category
-    json_suite_test_file[name]["distribution"] = {
-        "0.05": {
-            "min": min(all_files_metrics["q_05"]),
-            "max": max(all_files_metrics["q_05"]),
-        },
-        "Q1": {
-            "min": min(all_files_metrics["q1"]),
-            "max": max(all_files_metrics["q1"]),
-        },
-        "Median": {
-            "min": min(all_files_metrics["median"]),
-            "max": max(all_files_metrics["median"]),
-        },
-        "Q3": {
-            "min": min(all_files_metrics["q3"]),
-            "max": max(all_files_metrics["q3"]),
-        },
-        "0.95": {
-            "min": min(all_files_metrics["q_95"]),
-            "max": max(all_files_metrics["q_95"]),
-        },
-    }
-    json_suite_test_file[name]["mean"] = {
-        "min": min(all_files_metrics["mean"]),
-        "max": max(all_files_metrics["mean"]),
-    }
-    json_suite_test_file[name]["max_values"] = {
-        "min": min(all_files_metrics["max_value"]),
-        "max": max(all_files_metrics["max_value"]),
-    }
-    json_suite_test_file[name]["min_values"] = {
-        "min": min(all_files_metrics["min_value"]),
-        "max": max(all_files_metrics["min_value"]),
-    }
-    json_suite_test_file[name]["percentage_foreground"] = {
-        "min": min(all_files_metrics["percentage_foreground"]),
-        "max": max(all_files_metrics["percentage_foreground"]),
-    }
-    json_suite_test_file[name]["num_nans"] = {
-        "total": int(sum(all_files_metrics["num_nans"]))
-    }
-    json_suite_test_file[name]["num_infs"] = {
-        "total": int(sum(all_files_metrics["num_infs"]))
-    }
-    json_suite_test_file[name]["types"] = {
-        "unique_types": list(np.unique(all_files_metrics["types"]))
-    }
-
-    json_suite_test_file[name]["shapes_ax1"] = {
-        "unique_shapes": [int(x) for x in np.unique(all_files_metrics["shapes_ax1"])]
-    }
-
-    json_suite_test_file[name]["shapes_ax2"] = {
-        "unique_shapes": [int(x) for x in np.unique(all_files_metrics["shapes_ax2"])]
-    }
-    json_suite_test_file[name]["shapes_ax3"] = {
-        "unique_shapes": [int(x) for x in np.unique(all_files_metrics["shapes_ax3"])]
-    }
+    json_suite_test_file = metric_base.create_json()
 
     return json_suite_test_file

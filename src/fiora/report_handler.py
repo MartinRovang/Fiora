@@ -79,13 +79,13 @@ class ReportHandler:
         max_val_target = self.json_test[self.suitename][key]["max"]
 
         if test_result:
-            component += f'<td>✅ mean must be greater than or equal to <span style="background-color: #525252; color:white">{min_val}</span> and less than or equal to <span style="background-color: #525252; color:white">{max_val}</span>       {min_val_target}|{max_val_target}'
+            component += f'<tr><td>✅ mean must be greater than or equal to <span style="background-color: #525252; color:white">{min_val}</span> and less than or equal to <span style="background-color: #525252; color:white">{max_val}</span>       {min_val_target}|{max_val_target}'
         else:
-            component += f'<td>❌ mean must be greater than or equal to <span style="background-color: #525252; color:white">{min_val}</span> and less than or equal to <span style="background-color: #525252; color:white">{max_val}</span>'
+            component += f'<tr><td>❌ mean must be greater than or equal to <span style="background-color: #525252; color:white">{min_val}</span> and less than or equal to <span style="background-color: #525252; color:white">{max_val}</span>'
 
 
         component += f'</td>'
-        component += f'<td>{min_val_target}|{max_val_target}</td>'
+        component += f'<td>{min_val_target}|{max_val_target}</td></tr>'
 
         self.report_components.append(component)
         # self.generate_break()
@@ -102,13 +102,13 @@ class ReportHandler:
         max_val_target = self.json_test[self.suitename][key]["max"]
 
         if test_result:
-            component += f'<td>✅ max_values must be greater than or equal to <span style="background-color: #525252; color:white">{min_val}</span> and less than or equal to <span style="background-color: #525252; color:white">{max_val}</span>'
+            component += f'<tr><td>✅ max_values must be greater than or equal to <span style="background-color: #525252; color:white">{min_val}</span> and less than or equal to <span style="background-color: #525252; color:white">{max_val}</span>'
         else:
-            component += f'<td>❌ max_values must be greater than or equal to <span style="background-color: #525252; color:white">{min_val}</span> and less than or equal to <span style="background-color: #525252; color:white">{max_val}</span>'
+            component += f'<tr><td>❌ max_values must be greater than or equal to <span style="background-color: #525252; color:white">{min_val}</span> and less than or equal to <span style="background-color: #525252; color:white">{max_val}</span>'
 
 
         component += f'</td>'
-        component += f'<td>{min_val_target}|{max_val_target}</td>'
+        component += f'<td>{min_val_target}|{max_val_target}</td></tr>'
         
         self.report_components.append(component)
         # self.generate_break()
@@ -124,12 +124,12 @@ class ReportHandler:
         max_val_target = self.json_test[self.suitename][key]["max"]
 
         if test_result:
-            component += f'<td>✅ min_values must be greater than or equal to <span style="background-color: #525252; color:white">{min_val}</span> and less than or equal to <span style="background-color: #525252; color:white">{max_val}</span>'
+            component += f'<tr><td>✅ min_values must be greater than or equal to <span style="background-color: #525252; color:white">{min_val}</span> and less than or equal to <span style="background-color: #525252; color:white">{max_val}</span>'
         else:
-            component += f'<td>❌ min_values must be greater than or equal to <span style="background-color: #525252; color:white">{min_val}</span> and less than or equal to <span style="background-color: #525252; color:white">{max_val}</span>'
+            component += f'<tr><td>❌ min_values must be greater than or equal to <span style="background-color: #525252; color:white">{min_val}</span> and less than or equal to <span style="background-color: #525252; color:white">{max_val}</span>'
 
         component += "</td>"
-        component += f'<td>{min_val_target}|{max_val_target}</td>'
+        component += f'<td>{min_val_target}|{max_val_target}</td></tr>'
 
         self.report_components.append(component)
         # self.generate_break()
@@ -146,12 +146,12 @@ class ReportHandler:
         max_val_target = self.json_test[self.suitename][key]["max"]
 
         if test_result:
-            component += f'<td>✅ percentage_foreground must be greater than or equal to <span style="background-color: #525252; color:white">{min_val}</span> and less than or equal to <span style="background-color: #525252; color:white">{max_val}</span>       {min_val_target}|{max_val_target}'
+            component += f'<tr><td>✅ percentage_foreground must be greater than or equal to <span style="background-color: #525252; color:white">{min_val}</span> and less than or equal to <span style="background-color: #525252; color:white">{max_val}</span>       {min_val_target}|{max_val_target}'
         else:
-            component += f'<td>❌ percentage_foreground must be greater than or equal to <span style="background-color: #525252; color:white">{min_val}</span> and less than or equal to <span style="background-color: #525252; color:white">{max_val}</span> {min_val_target}|{max_val_target}'
+            component += f'<tr><td>❌ percentage_foreground must be greater than or equal to <span style="background-color: #525252; color:white">{min_val}</span> and less than or equal to <span style="background-color: #525252; color:white">{max_val}</span> {min_val_target}|{max_val_target}'
         
         component += "</td>"
-        component += f'<td>{min_val_target}|{max_val_target}</td>'
+        component += f'<td>{min_val_target}|{max_val_target}</td></tr>'
 
         self.report_components.append(component)
         # self.generate_break()
@@ -164,12 +164,12 @@ class ReportHandler:
         number_target = self.json_test[self.suitename][key]["total"]
 
         if test_result:
-            component += f'<td>✅ must have same number of nans <span style="background-color: #525252; color:white">{total}</span>       {number_target}'
+            component += f'<tr><td>✅ must have same number of nans <span style="background-color: #525252; color:white">{total}</span>'
         else:
-            component += f'<td>❌ must have same number of nans <span style="background-color: #525252; color:white">{total}</span>       {number_target}'
+            component += f'<tr><td>❌ must have same number of nans <span style="background-color: #525252; color:white">{total}</span>'
         
         component += f'</td>'
-        component += f'<td>{total}</td>'
+        component += f'<td>{total}</td></tr>'
         self.report_components.append(component)
         # self.generate_break()
     
@@ -181,12 +181,12 @@ class ReportHandler:
         number_target = self.json_test[self.suitename][key]["total"]
 
         if test_result:
-            component += f'<td>✅ must have same number of infs <span style="background-color: #525252; color:white">{total}</span>       {number_target}'
+            component += f'<tr><td>✅ must have same number of infs <span style="background-color: #525252; color:white">{total}</span>'
         else:
-            component += f'<td>❌ must have same number of infs <span style="background-color: #525252; color:white">{total}</span>       {number_target}'
+            component += f'<tr><td>❌ must have same number of infs <span style="background-color: #525252; color:white">{total}</span>'
 
         component += "</td>"
-        component += f'<td>{number_target}</td>'
+        component += f'<td>{number_target}</td></tr>'
         self.report_components.append(component)
         # self.generate_break()
     
@@ -197,14 +197,14 @@ class ReportHandler:
         unique_types = self.json_ref[self.suitename][key]["unique_types"]
         unique_types_target = self.json_test[self.suitename][key]["unique_types"]
         if test_result:
-            component += "<td>✅ types must be any of the following "
+            component += "<tr><td>✅ types must be any of the following "
         else:
-            component += "<td>❌ types must be any of the following   "
+            component += "<tr><td>❌ types must be any of the following   "
         for typ_ in unique_types:
             component += f"""<span style="background-color: #0000FF; color:white">{typ_}</span> """
 
         component += "</td>"
-        component += f'<td>{unique_types_target}</td>'
+        component += f'<td>{unique_types_target}</td></tr>'
 
         self.report_components.append(component)
         # self.generate_break()
@@ -219,16 +219,16 @@ class ReportHandler:
         unique_target = self.json_test[self.suitename][key]["unique_shapes"]
 
         if test_result:
-            component += "<td>✅ shapes must be any of the following "
+            component += "<tr><td>✅ shapes must be any of the following "
         else:
             component += (
-                "<td>❌ shape for axis 0 must be any of the following   "
+                "<tr><td>❌ shape for axis 0 must be any of the following   "
             )
         for shape_ in unique_shapes:
             component += f"""<span style="background-color: #0000FF; color:white">{shape_}</span> """
 
         component += "</td>"
-        component += f'<td>{unique_target}</td>'
+        component += f'<td>{unique_target}</td></tr>'
         self.report_components.append(component)
         # self.generate_break()
 
@@ -242,17 +242,17 @@ class ReportHandler:
         unique_shapes = self.json_ref[self.suitename][key]["unique_shapes"]
         unique_target = self.json_test[self.suitename][key]["unique_shapes"]
         if test_result:
-            component += "<td>✅ shapes must be any of the following "
+            component += "<tr><td>✅ shapes must be any of the following "
         else:
             component += (
-                "<td>❌ shape for axis 1 must be any of the following   "
+                "<tr><td>❌ shape for axis 1 must be any of the following   "
             )
         for shape_ in unique_shapes:
             component += f"""<span style="background-color: #0000FF; color:white">{shape_}</span> """
         
 
         component += "</td>"
-        component += f'<td>{unique_target}</td>'
+        component += f'<td>{unique_target}</td><tr>'
         self.report_components.append(component)
         # self.generate_break()
     
@@ -264,16 +264,16 @@ class ReportHandler:
         unique_shapes = self.json_ref[self.suitename][key]["unique_shapes"]
         unique_target = self.json_test[self.suitename][key]["unique_shapes"]
         if test_result:
-            component += "<td>✅ shapes must be any of the following "
+            component += "<tr><td>✅ shapes must be any of the following "
         else:
             component += (
-                "<td>❌ shape for axis 2 must be any of the following   "
+                "<tr><td>❌ shape for axis 2 must be any of the following   "
             )
         for shape_ in unique_shapes:
             component += f"""<span style="background-color: #0000FF; color:white">{shape_}</span> """
         
         component += "</td>"
-        component += f'<td>{unique_target}</td>'
+        component += f'<td>{unique_target}</td></tr>'
         self.report_components.append(component)
         # self.generate_break()
 

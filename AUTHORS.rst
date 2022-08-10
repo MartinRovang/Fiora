@@ -2,4 +2,4 @@
 Contributors
 ============
 
-* Martin RÃ¸vang <martinrovang@gmail.com>
+* MartinRovang <martinrovang@gmail.com>

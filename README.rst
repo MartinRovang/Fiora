@@ -23,24 +23,21 @@
         :alt: Twitter
         :target: https://twitter.com/Fiora
 
-    .. image:: https://img.shields.io/badge/-PyScaffold-005CA0?logo=pyscaffold
-        :alt: Project generated with PyScaffold
+.. image:: https://img.shields.io/badge/-PyScaffold-005CA0?logo=pyscaffold
+    :alt: Project generated with PyScaffold
     :target: https://pyscaffold.org/
 
 |
-
-.. image:: flc_design2022080460426.jpg
-
 
 =====
 Fiora
 =====
 
 
-    Data testing suite for medical imaging data
+    Add a short description here!
 
 
-This framework gathers inspiration from the great expectations data testing package. Great expectations is only working for tabular data, therefore this package was made to be similar but work better with medical imaging data and to be more flexible in machine & deep learning pipelines on console interfaces and more closed systems.
+A longer description of your project goes here...
 
 
 .. _pyscaffold-notes:
@@ -48,4 +45,5 @@ This framework gathers inspiration from the great expectations data testing pack
 Note
 ====
 
-None at the moment.
+This project has been set up using PyScaffold 4.2.3. For details and usage
+information on PyScaffold see https://pyscaffold.org/.

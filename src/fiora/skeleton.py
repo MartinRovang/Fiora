@@ -28,8 +28,8 @@ import click
 from fiora import __version__
 from rich.console import Console
 from rich.progress import track
-import src.fiora.fiora_profiler as fp
-import src.fiora.fiora_validate as fv
+import fiora.fiora_profiler as fp
+import fiora.fiora_validate as fv
 import time
 import mypy
 from rich.prompt import Prompt

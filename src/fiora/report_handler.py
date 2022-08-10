@@ -1,5 +1,5 @@
 from msilib.schema import Component
-from src.fiora.untests import MetricTester
+from fiora.untests import MetricTester
 
 
 
@@ -42,6 +42,9 @@ class ReportHandler:
         ) as outfile:
             outfile.write(markdown_document)
         
+        return self.metrictester.test_result_json
+    
+    def generate_report_json(self):
         return self.metrictester.test_result_json
     
     def generate_break(self):

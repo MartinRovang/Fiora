@@ -1,5 +1,5 @@
 import numpy as np
-from src.fiora.jsonify_metrics import Jsonify_Base
+from fiora.jsonify_metrics import Jsonify_Base
 
 class MetricBase:
     def __init__(self, name):

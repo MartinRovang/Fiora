@@ -3,8 +3,8 @@ import os
 import numpy as np
 import json
 from rich.progress import track
-import fiora.generate_report as gr
-from fiora.metrics import MetricBase
+import src.fiora.generate_report as gr
+from src.fiora.metrics import MetricBase
 
 class FioraProfiler:
     """The profiler used to analyze the data and generate the tests metrics."""
@@ -14,7 +14,7 @@ class FioraProfiler:
         self.filetype = filetype
         self.suitename = suitename
         self.data_id = data_id
-        self.report_gen = gr.ReportMaker(self.suitename)
+        self.report_gen = gr.ReportMaker(suitename)
 
     @staticmethod
     def get_files_nifty(path_to_file):

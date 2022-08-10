@@ -3,14 +3,18 @@ import os
 import numpy as np
 import mypy
 import glob
-from fiora.report_handler import ReportHandler
+from src.fiora.report_handler import ReportHandler
 
 class ReportMaker:
     """Class to report the results of the test suite into markdown or other types"""
 
-    def __init__(self, suitename) -> None:
+    def __init__(self, suitename, datapath, validation_id) -> None:
         self.suitename = suitename
+        self.json_test = self.load_json(
+            f"Fiora_strc/validations/{suitename}_{validation_id}.json"
+        )
         self.json_ref = self.load_json(f"Fiora_strc/test_suites/{self.suitename}.json")
+        self.reporthandler = ReportHandler(datapath, self.json_ref, self.json_test, validation_id)
 
     def load_json(self, json_path):
         """
@@ -130,12 +134,8 @@ class ReportMaker:
         B = list(unique_shape_test.values())[0]
         return set(B).issubset(set(A))
 
-    def generate_report_markdown_validation(self, validation_id, data_path, output_report=True):
+    def generate_report_markdown_validation(self, validation_id, data_path):
         """Generate the report markdown for the validation"""
-        self.json_test = self.load_json(
-            f"Fiora_strc/validations/{self.suitename}_{validation_id}.json"
-        )
-        self.reporthandler = ReportHandler(data_path, self.json_ref, self.json_test, validation_id)
 
         self.reporthandler.generate_distribution()
         self.reporthandler.begin_table()
@@ -150,11 +150,8 @@ class ReportMaker:
         self.reporthandler.generate_shape_ax2()
         self.reporthandler.generate_shape_ax3()
         self.reporthandler.end_table()
+        test_results_json = self.reporthandler.generate_report()
 
-        if output_report:
-            test_results_json = self.reporthandler.generate_report()
-        else:
-            test_results_json = self.reporthandler.generate_report_json()
 
         return test_results_json
 

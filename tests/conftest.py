@@ -7,4 +7,10 @@
     - https://docs.pytest.org/en/stable/writing_plugins.html
 """
 
-# import pytest
+import pytest
+
+
+def test_import():
+    import numpy
+    import nibabel
+    import rich

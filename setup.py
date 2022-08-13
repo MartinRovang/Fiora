@@ -11,16 +11,14 @@ from setuptools import setup
 
 if __name__ == "__main__":
     try:
+        with open("docs/requirements.txt", encoding="utf-8") as f:
+            requirements = f.read().splitlines()
+            # replace > from requirements
+            requirements = [x.replace(">", "=") for x in requirements]
+
         setup(
             use_scm_version={"version_scheme": "no-guess-dev"},
-            install_requires=[
-                "numpy==1.22.0",
-                "nibabel==3.2.1",
-                "click==8.0.1",
-                "rich==12.4.4",
-                "mypy==0.971",
-                "pyyaml==6.0",
-            ],
+            install_requires=requirements,
         )
     except:  # noqa
         print(

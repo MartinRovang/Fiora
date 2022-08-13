@@ -6,5 +6,7 @@ __copyright__ = "Martin Rovang"
 __license__ = "MIT"
 
 
-def test_main():
-    assert 7 == 7
+def test_import():
+    import numpy
+    import nibabel
+    import rich

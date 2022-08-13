@@ -11,12 +11,11 @@ from setuptools import setup
 
 if __name__ == "__main__":
     try:
-        # setup(use_scm_version={"version_scheme": "no-guess-dev"})
         setup(
             use_scm_version={"version_scheme": "no-guess-dev"},
             install_requires=[
-                "nibabel==3.2.1",
                 "numpy==1.21.5",
+                "nibabel==3.2.1",
                 "click==8.0.1",
                 "rich==12.4.4",
                 "mypy==0.971",

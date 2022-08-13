@@ -14,7 +14,7 @@ if __name__ == "__main__":
         setup(
             use_scm_version={"version_scheme": "no-guess-dev"},
             install_requires=[
-                "numpy==1.21.5",
+                "numpy==1.22.0",
                 "nibabel==3.2.1",
                 "click==8.0.1",
                 "rich==12.4.4",

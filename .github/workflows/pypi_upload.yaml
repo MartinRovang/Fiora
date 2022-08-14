@@ -19,12 +19,15 @@ jobs:
           pip install
           build
           --user
+
       - name: Tag build
-        run: echo ${{ github.ref }}
+        run: echo ${{ github.ref_name }}
       - name: make new tag
-        run: git tag ${{ github.ref }}
-      - name: Tag build #2
-        run: echo ${{ github.ref }}
+        run: git tag ${{ github.ref_name }}
+
+      - name: print tag
+        run: echo ${{ github.ref_name }}
+
       - name: Build a binary wheel and a source tarball
         run: >-
           python -m
@@ -35,7 +38,6 @@ jobs:
           .
       # Actually publish to PyPI/TestPyPI
       - name: Publish distribution 📦 to Test PyPI
-        if: startsWith(github.ref, 'refs/tags')
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           password: ${{ secrets.TEST_PYPI_API_TOKEN }}

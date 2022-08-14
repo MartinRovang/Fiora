@@ -5,6 +5,7 @@ import mypy
 import glob
 from fiora.report_handler import ReportHandler
 
+
 class ReportMaker:
     """Class to report the results of the test suite into markdown or other types"""
 
@@ -130,12 +131,16 @@ class ReportMaker:
         B = list(unique_shape_test.values())[0]
         return set(B).issubset(set(A))
 
-    def generate_report_markdown_validation(self, validation_id, data_path, output_report=True):
+    def generate_report_markdown_validation(
+        self, validation_id, data_path, output_report=True
+    ):
         """Generate the report markdown for the validation"""
         self.json_test = self.load_json(
             f"Fiora_strc/validations/{self.suitename}_{validation_id}.json"
         )
-        self.reporthandler = ReportHandler(data_path, self.json_ref, self.json_test, validation_id)
+        self.reporthandler = ReportHandler(
+            data_path, self.json_ref, self.json_test, validation_id
+        )
 
         self.reporthandler.generate_distribution()
         self.reporthandler.begin_table()

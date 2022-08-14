@@ -4,6 +4,14 @@ jobs:
   Publish_to_testpipy:
     runs-on: ubuntu-latest
     steps:
+      - name: Install tox
+        run: pip install tox
+      - name: Run tox
+        run: tox
+
+      - name: Build package
+        run: tox -e build
+
       - name: Publish package
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
         uses: pypa/gh-action-pypi-publish@release/v1

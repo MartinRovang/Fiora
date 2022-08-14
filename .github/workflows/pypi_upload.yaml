@@ -20,13 +20,13 @@ jobs:
           build
           --user
 
-      - name: Tag build
-        run: echo ${{ github.event.release.tag_name }}
-      - name: make new tag
-        run: git tag ${{ github.event.release.tag_name }}
-
-      - name: print tag
-        run: echo ${{ github.event.release.tag_name }}
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check tag
+        run: echo ${{ steps.tag_version.outputs.new_tag }}
 
       - name: Build a binary wheel and a source tarball
         run: >-
@@ -36,9 +36,9 @@ jobs:
           --wheel
           --outdir dist/
           .
-      # Actually publish to PyPI/TestPyPI
-      - name: Publish distribution 📦 to Test PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-          repository_url: https://test.pypi.org/legacy/
+      # # Actually publish to PyPI/TestPyPI
+      # - name: Publish distribution 📦 to Test PyPI
+      #   uses: pypa/gh-action-pypi-publish@release/v1
+      #   with:
+      #     password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+      #     repository_url: https://test.pypi.org/legacy/

@@ -42,7 +42,7 @@ Fiora
 
 This framework gathers inspiration from the great expectations data testing package. Great expectations is only working for tabular data, therefore this package was made to be similar but work better with medical imaging data and to be more flexible in machine & deep learning pipelines on console interfaces and more closed systems.
 
-Available on testpypi: :code:`pip install --extra-index-url https://test.pypi.org/simple/ Fiora::`
+Available on testpypi: :code:`pip install --extra-index-url https://test.pypi.org/simple/ Fiora`
 
 .. _pyscaffold-notes:
 

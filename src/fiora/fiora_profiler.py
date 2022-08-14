@@ -1,10 +1,10 @@
 import nibabel as nib
 import os
-import numpy as np
 import json
 from rich.progress import track
 import fiora.generate_report as gr
 from fiora.metrics import MetricBase
+
 
 class FioraProfiler:
     """The profiler used to analyze the data and generate the tests metrics."""

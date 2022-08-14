@@ -4,11 +4,15 @@ jobs:
   Publish_to_testpipy:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - name: Install tox
         run: pip install tox
+
+      - uses: actions/checkout@v3
       - name: Run tox
         run: tox
 
+      - uses: actions/checkout@v3
       - name: Build package
         run: tox -e build
 

@@ -167,7 +167,7 @@ class ReportMaker:
         """Generate the report in markdown format"""
         json_path = f"Fiora_strc/test_suites/{self.suitename}.json"
         json_file = self.load_json(json_path)
-        markdown_document = """<center><img src="https://github.com/MartinRovang/Fiora/blob/master/flc_design2022080460426.jpg?raw=true" width="100"> <br><br>"""
+        markdown_document = """<center><img src="https://raw.githubusercontent.com/MartinRovang/Fiora/master/flc_design2022080460426.jpg" width="100"> <br><br>"""
         for key in json_file[self.suitename]:
             markdown_document += "<hr><br>"
 

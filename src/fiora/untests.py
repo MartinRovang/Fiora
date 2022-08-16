@@ -138,3 +138,10 @@ class MetricTester:
         test_check = set(B).issubset(set(A))
         self.test_result_json["shapes_ax3"] = test_check
         return test_check
+
+
+    def test_orientation_correlation(self, json_ref, json_test):
+        """
+        Test the orientation correlation of the test suite
+        """
+        pass

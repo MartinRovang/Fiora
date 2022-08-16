@@ -1,5 +1,8 @@
 import numpy as np
 from fiora.jsonify_metrics import Jsonify_Base
+# resize from scikit image
+from skimage.transform import resize
+
 
 class MetricBase:
     def __init__(self, name):
@@ -19,6 +22,7 @@ class MetricBase:
         "shapes_ax1": [],
         "shapes_ax2": [],
         "shapes_ax3": [],
+        "downsampled_brains": [],
     }
         self.jsonify_base = Jsonify_Base(name)
 
@@ -89,6 +93,15 @@ class MetricBase:
         self.all_files_metrics["shapes_ax2"].append(shapes_ax2)
         self.all_files_metrics["shapes_ax3"].append(shapes_ax3)
         self.jsonify_base.create_shapes()
+    
+
+    def get_orientation_correlation(self, data):
+        downsampled_brain = np.array(resize(data, (64, 64, 64), mode="constant"))
+        if len(self.all_files_metrics["downsampled_brains"]) == 0:
+            self.all_files_metrics["downsampled_brains"] = [downsampled_brain]
+        else:
+            self.all_files_metrics["downsampled_brains"].append(downsampled_brain)
+        self.jsonify_base.create_orientation_correlation()
 
 
     

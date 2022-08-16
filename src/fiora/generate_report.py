@@ -11,7 +11,6 @@ class ReportMaker:
 
     def __init__(self, suitename) -> None:
         self.suitename = suitename
-        self.json_ref = self.load_json(f"Fiora_strc/test_suites/{self.suitename}.json")
 
     def load_json(self, json_path):
         """
@@ -138,6 +137,7 @@ class ReportMaker:
         self.json_test = self.load_json(
             f"Fiora_strc/validations/{self.suitename}_{validation_id}.json"
         )
+        self.json_ref = self.load_json(f"Fiora_strc/test_suites/{self.suitename}.json")
         self.reporthandler = ReportHandler(
             data_path, self.json_ref, self.json_test, validation_id
         )

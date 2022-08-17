@@ -2,7 +2,6 @@
 
 
 import numpy as np
-
 class MetricTester:
     def __init__(self):
         self.test_result_json = {}
@@ -151,12 +150,21 @@ class MetricTester:
 
         # Get correlation value
         slice_axis = brain_mean_val_ref.shape[0]
-        correlation_value = []
-        correlation_value.append(np.nanmean(np.corrcoef(brain_mean_val_ref[128//2, :, :], brain_mean_val_test[128//2, :, :])))
-        correlation_value.append(np.nanmean(np.corrcoef(brain_mean_val_ref[:, 128//2, :], brain_mean_val_test[:, 128//2, :])))
-        correlation_value.append(np.nanmean(np.corrcoef(brain_mean_val_ref[:, :, 128//2], brain_mean_val_test[:, :, 128//2])))
-        correlation_value = np.mean(correlation_value)
+        correlation_value = {"sagital": [], "coronal": [], "axial": []}
 
-        test_check = correlation_value >= 0.9
+        for i in range(slice_axis):
+            targets = brain_mean_val_ref[i, :, :]
+            targets = targets > 0
+            correlation_value["sagital"].append(np.nanmean(np.corrcoef(brain_mean_val_ref[i,:,:][targets], brain_mean_val_test[i,:,:][targets])))
+            correlation_value["coronal"].append(np.nanmean(np.corrcoef(brain_mean_val_ref[i,:,:][targets], brain_mean_val_test[:,i,:][targets])))
+            correlation_value["axial"].append(np.nanmean(np.corrcoef(brain_mean_val_ref[i,:,:][targets], brain_mean_val_test[:, :, i][targets])))
+        
+        correlation_axis_0 = np.nanmean(correlation_value["sagital"])
+        correlation_axis_1 = np.nanmean(correlation_value["coronal"])
+        correlation_axis_2 = np.nanmean(correlation_value["axial"])
+
+        #test if correlation is higher for the two other axes than axis 0
+        test_check = (correlation_axis_0 > correlation_axis_1) and (correlation_axis_0 > correlation_axis_2)
+
         self.test_result_json["orientation_correlation"] = test_check
-        return correlation_value, test_check
+        return [correlation_axis_0, correlation_axis_1, correlation_axis_2], test_check

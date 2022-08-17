@@ -105,7 +105,7 @@ class Jsonify_Base:
             else:
                 total_brain += brain
         total_brain /= len(data["downsampled_brains"])
-        self.json_suite_test_file[self.name]["orientation_correlation"] = total_brain.astype(int).tolist()
+        self.json_suite_test_file[self.name]["orientation_correlation"] = total_brain.tolist()
 
         return self.json_suite_test_file
     

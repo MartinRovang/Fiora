@@ -1,6 +1,8 @@
 
 
 
+import numpy as np
+
 class MetricTester:
     def __init__(self):
         self.test_result_json = {}
@@ -144,4 +146,17 @@ class MetricTester:
         """
         Test the orientation correlation of the test suite
         """
-        pass
+        brain_mean_val_ref = np.array(json_ref["orientation_correlation"])
+        brain_mean_val_test = np.array(json_test["orientation_correlation"])
+
+        # Get correlation value
+        slice_axis = brain_mean_val_ref.shape[0]
+        correlation_value = []
+        correlation_value.append(np.nanmean(np.corrcoef(brain_mean_val_ref[128//2, :, :], brain_mean_val_test[128//2, :, :])))
+        correlation_value.append(np.nanmean(np.corrcoef(brain_mean_val_ref[:, 128//2, :], brain_mean_val_test[:, 128//2, :])))
+        correlation_value.append(np.nanmean(np.corrcoef(brain_mean_val_ref[:, :, 128//2], brain_mean_val_test[:, :, 128//2])))
+        correlation_value = np.mean(correlation_value)
+
+        test_check = correlation_value >= 0.9
+        self.test_result_json["orientation_correlation"] = test_check
+        return correlation_value, test_check

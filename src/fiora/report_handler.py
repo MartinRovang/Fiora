@@ -1,4 +1,3 @@
-from msilib.schema import Component
 from fiora.untests import MetricTester
 
 

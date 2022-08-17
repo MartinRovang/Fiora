@@ -96,7 +96,13 @@ class MetricBase:
     
 
     def get_orientation_correlation(self, data):
-        downsampled_brain = np.array(resize(data, (64, 64, 64), mode="constant"))
+
+        # slice out the foreground of volume
+        
+        downsampled_brain = np.array(resize(data, (124, 124, 124), mode="constant", order = 3))
+
+        downsampled_brain = downsampled_brain - np.mean(downsampled_brain)
+        downsampled_brain = downsampled_brain / np.std(downsampled_brain)
         if len(self.all_files_metrics["downsampled_brains"]) == 0:
             self.all_files_metrics["downsampled_brains"] = [downsampled_brain]
         else:

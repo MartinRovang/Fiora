@@ -154,6 +154,7 @@ class ReportMaker:
         self.reporthandler.generate_shape_ax1()
         self.reporthandler.generate_shape_ax2()
         self.reporthandler.generate_shape_ax3()
+        self.reporthandler.generate_orientation_correlation()
         self.reporthandler.end_table()
 
         if output_report:

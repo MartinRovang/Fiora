@@ -11,7 +11,7 @@ class ReportHandler:
         self.validation_id = validation_id
         self.suitename = list(json_ref.keys())[0]
         self.report_components = []
-        self.output = f"""<center><img src="https://github.com/MartinRovang/Fiora/blob/master/flc_design2022080460426.jpg?raw=true" width="100">  <br><br> Target: <p>{datapath}</p>
+        self.output = f"""<center><img src="https://github.com/MartinRovang/Fiora/blob/master/flc_design2022080460426.jpg?raw=true" width="200">  <br><br> Target: <p>{datapath}</p>
         <br></center>
         <style>
             .whole_table {{
@@ -82,7 +82,7 @@ class ReportHandler:
         max_val_target = self.json_test[self.suitename][key]["max"]
 
         if test_result:
-            component += f'<tr><td>✅ mean must be greater than or equal to <span style="background-color: #525252; color:white">{min_val}</span> and less than or equal to <span style="background-color: #525252; color:white">{max_val}</span>       {min_val_target}|{max_val_target}'
+            component += f'<tr><td>✅ mean must be greater than or equal to <span style="background-color: #525252; color:white">{min_val}</span> and less than or equal to <span style="background-color: #525252; color:white">{max_val}</span>'
         else:
             component += f'<tr><td>❌ mean must be greater than or equal to <span style="background-color: #525252; color:white">{min_val}</span> and less than or equal to <span style="background-color: #525252; color:white">{max_val}</span>'
 
@@ -172,7 +172,7 @@ class ReportHandler:
             component += f'<tr><td>❌ must have same number of nans <span style="background-color: #525252; color:white">{total}</span>'
         
         component += f'</td>'
-        component += f'<td>{total}</td></tr>'
+        component += f'<td>{number_target}</td></tr>'
         self.report_components.append(component)
         # self.generate_break()
     
@@ -416,5 +416,16 @@ class ReportHandler:
 
 
 
+    def generate_orientation_correlation(self):
+        component = """"""
+        correlation_value, test_result = self.metrictester.test_orientation_correlation(self.json_ref[self.suitename], self.json_test[self.suitename])
+
+        if test_result:
+            component += f'<tr><td>✅ The correlation has to be larger than <span style="background-color: #525252; color:white">0.9</span> '
+        else:
+            component += f'<tr><td>❌ The correlation has to be larger than <span style="background-color: #525252; color:white">0.9</span>'
 
 
+        component += f'</td>'
+        component += f'<td>{correlation_value}</td></tr>'
+        self.report_components.append(component)

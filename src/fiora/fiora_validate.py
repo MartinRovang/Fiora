@@ -24,9 +24,7 @@ def validate(data_path, name_of_suite, output_report=True) -> Tuple[dict, str]:
     with open(f"Fiora_strc/test_suites/{name_of_suite}.json", "r") as infile:
         reference_json = json.load(infile)
     data_id = reference_json["data_id"]
-    yaml_file = yaml.safe_load(open(f"Fiora_strc/datafiles/{data_id}.yml", "r"))
-    data_type = yaml_file["testing_pipeline"]["type"]
-    json_target = fp.get_general_profile(data_path, name_of_suite, data_type)
+    json_target = fp.get_general_profile(data_path, name_of_suite)
     json_target["data_target"] = data_path
     validation_id = str(uuid.uuid4())
 

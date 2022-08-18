@@ -155,9 +155,39 @@ class MetricTester:
         for i in range(slice_axis):
             targets = brain_mean_val_ref[i, :, :]
             targets = targets > 0
-            correlation_value["sagital"].append(np.nanmean(np.corrcoef(brain_mean_val_ref[i,:,:][targets], brain_mean_val_test[i,:,:][targets])))
-            correlation_value["coronal"].append(np.nanmean(np.corrcoef(brain_mean_val_ref[i,:,:][targets], brain_mean_val_test[:,i,:][targets])))
-            correlation_value["axial"].append(np.nanmean(np.corrcoef(brain_mean_val_ref[i,:,:][targets], brain_mean_val_test[:, :, i][targets])))
+
+            target_test1 = brain_mean_val_test[i,:,:][targets]
+            target_test2 = brain_mean_val_test[:,i,:][targets]
+            target_test3 = brain_mean_val_test[:,:,i][targets]
+
+            if len(target_test1) > 0:
+                corr1 = np.corrcoef(brain_mean_val_ref[i,:,:][targets], target_test1)
+            else:
+                corr1 = np.array([0])
+            if len(target_test2) > 0:
+                corr2 = np.corrcoef(brain_mean_val_ref[i,:,:][targets], target_test2)
+            else:
+                corr2 = np.array([0])
+            if len(target_test3) > 0:
+                corr3 = np.corrcoef(brain_mean_val_ref[i,:,:][targets], target_test3)
+            else:
+                corr3 = np.array([0])
+            # if the inverse of isnan is zero
+            check_if_all_are_nan1 = np.isnan(corr1).flatten().sum() != len(corr1.flatten())
+            check_if_all_are_nan2 = np.isnan(corr2).flatten().sum() != len(corr2.flatten())
+            check_if_all_are_nan3 = np.isnan(corr3).flatten().sum() != len(corr3.flatten())
+            if check_if_all_are_nan1:
+                correlation_value["sagital"].append(np.nanmean(corr1))
+            else:
+                correlation_value["sagital"].append(0)
+            if check_if_all_are_nan2:
+                correlation_value["coronal"].append(np.nanmean(corr2))
+            else:
+                correlation_value["coronal"].append(0)
+            if check_if_all_are_nan3:
+                correlation_value["axial"].append(np.nanmean(corr3))
+            else:
+                correlation_value["axial"].append(0)
         
         correlation_axis_0 = np.nanmean(correlation_value["sagital"])
         correlation_axis_1 = np.nanmean(correlation_value["coronal"])

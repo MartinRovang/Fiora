@@ -55,9 +55,9 @@ class FioraProfiler:
         self.report_gen.generate_report_markdown()
 
 
-def get_general_profile(data_path, name, filetype):
+def get_general_profile(data_path, name):
     """Get the general profile of the data."""
-    files = [x for x in os.listdir(data_path) if x.endswith(filetype)]
+    files = [x for x in os.listdir(data_path)]
     metric_base = MetricBase(name)
 
     for file in track(files, description="Profiling files", total=len(files)):

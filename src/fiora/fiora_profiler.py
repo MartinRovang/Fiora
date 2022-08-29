@@ -74,7 +74,6 @@ def get_general_profile(data_path, name):
         metric_base.get_num_infs(data)
         metric_base.get_orientation_correlation(data)
 
-
     json_suite_test_file = metric_base.create_json()
 
     return json_suite_test_file

@@ -21,21 +21,23 @@ References:
 """
 
 
-import logging
+import coloredlogs, logging
+coloredlogs.install()
 import os
 import sys
 import click
 from fiora import __version__
 from rich.console import Console
 from rich.progress import track
-import fiora.fiora_profiler as fp
-import fiora.fiora_validate as fv
 import time
-import mypy
 from rich.prompt import Prompt
 import glob
 import uuid
 import yaml
+import fiora.vars_and_path as vp
+import fiora.suit_generator as sg
+import fiora.suit_tester as st
+import json
 
 __author__ = "Martin RÃ¸vang"
 __copyright__ = "Martin RÃ¸vang"
@@ -116,142 +118,81 @@ def main(**kwargs):
             style="bold red",
         )
         time.sleep(0.5)
-        console.print("Initializing the project", style="bold cyan")
+        # log
+        _logger.info("Initializing the project")
         # Initialize the project
         # Make directory structure
         console.print("Building directory structure", style="bold cyan")
-        os.makedirs("Fiora_strc", exist_ok=True)
-        os.makedirs("Fiora_strc/test_suites", exist_ok=True)
-        os.makedirs("Fiora_strc/datafiles", exist_ok=True)
-        os.makedirs("Fiora_strc/test_suites/reports", exist_ok=True)
-        os.makedirs("Fiora_strc/validations", exist_ok=True)
-        os.makedirs("Fiora_strc/validations/reports", exist_ok=True)
-        console.print("Completed \U0001F970 \U0001F60D", style="bold cyan")
-
-    if kwargs["datasource"]:
-        if kwargs["datasource"] != "new":
-            console.print("Invalid command for datasource", style="bold red")
-        else:
-            datapath = Prompt.ask("""Insert path to data folder (abspath)""")
-            if os.path.isdir(datapath):
-                console.print(
-                    f"Connecting to data folder: {datapath}", style="bold cyan"
-                )
-                all_files_nii_compressed = glob.glob(os.path.join(datapath, "*.nii.gz"))
-                all_files_nii = glob.glob(os.path.join(datapath, "*.nii"))
-                all_files_dcm = glob.glob(os.path.join(datapath, "*.dcm"))
-                N_nifty_compressed = len(all_files_nii_compressed)
-                N_nifty = len(all_files_nii)
-                N_dcm = len(all_files_dcm)
-                total = N_nifty_compressed + N_nifty + N_dcm
-                if total == 0:
-                    console.print("No files found", style="bold red")
-                    return
-                if N_nifty_compressed > 0:
-                    data_type = "nii.gz"
-                    console.print(
-                        f"Found {N_nifty_compressed} compressed nifty files",
-                        style="bold cyan",
-                    )
-
-                if N_nifty > 0:
-                    data_type = "nii"
-                    console.print(f"Found {N_nifty} nifty file(s)", style="bold cyan")
-
-                if N_dcm > 0:
-                    data_type = "dcm"
-                    console.print(f"Found {N_dcm} dcm files", style="bold cyan")
-
-                if N_nifty_compressed > 0 and N_nifty > 0 and N_dcm > 0:
-                    console.print(
-                        f"Datafolder contains different data types, please ensure it only contains one type.",
-                        style="bold cyan",
-                    )
-                    return
-                else:
-                    data_id = str(uuid.uuid4())
-                    with open(f"Fiora_strc/datafiles/{data_id}.yml", "w") as f:
-                        f.write(
-                            f"""
-testing_pipeline:
-    path: {datapath}
-    type: {data_type}
-                        """
-                        )
-                console.print(
-                    f"ID: {data_id}, Insert this id in the test suite setup.",
-                    style="bold cyan",
-                )
-                console.print(f"Complete \U0001F970 \U0001F60D", style="bold cyan")
-            else:
-                console.print("Invalid path", style="bold red")
+        # log
+        _logger.info("Building directory structure")
+        os.makedirs(f"{vp.module_folder_name}", exist_ok=True)
+        os.makedirs(f"{vp.module_folder_name}/test_suites", exist_ok=True)
+        os.makedirs(f"{vp.module_folder_name}/test_suites/reports", exist_ok=True)
+        os.makedirs(f"{vp.module_folder_name}/validations", exist_ok=True)
+        os.makedirs(f"{vp.module_folder_name}/validations/reports", exist_ok=True)
+        # log
+        _logger.info("Completed")
 
     if kwargs["suite"]:
         if kwargs["suite"] != "new":
             console.print("Invalid command for suite", style="bold red")
+            _logger.error("Invalid command for suite")
         else:
-            data_id = Prompt.ask("""Insert id from the datasource setup""")
-            suitename = Prompt.ask("""Give a name of your test suite""")
-            if os.path.isfile(f"Fiora_strc/datafiles/{data_id}.yml"):
-                console.print(f"Connecting datafile: {data_id}", style="bold cyan")
-                yaml_file = yaml.safe_load(
-                    open(f"Fiora_strc/datafiles/{data_id}.yml", "r")
-                )
-                console.print(f"Complete \U0001F970 \U0001F60D", style="bold cyan")
-                console.print(f"Starting data profiling", style="bold cyan")
-                data_path = yaml_file["testing_pipeline"]["path"]
-                test_suite = fp.FioraProfiler(
-                    data_path=data_path,
-                    filetype=yaml_file["testing_pipeline"]["type"],
-                    suitename=suitename,
-                    data_id=data_id,
-                )
-                test_suite.create_general_profile()
-                console.print(f"Complete \U0001F970 \U0001F60D", style="bold cyan")
-                console.print(f"Making test suite report", style="bold cyan")
-                test_suite.make_report()
-                console.print(f"Complete \U0001F970 \U0001F60D", style="bold cyan")
+            data_path = Prompt.ask("""Insert path the suite will be based on (Only works for nii.gz files)""")
+            #check if exists
+            if os.path.exists(data_path):
+                all_files_nii_compressed = glob.glob(os.path.join(data_path, "*.nii.gz"))
+                # feedback how many files
+                # log
+                _logger.info(f"Found {len(all_files_nii_compressed)} files")
+                suitename = Prompt.ask("""Give a name of your test suite""")
+                _logger.info("Creating test suite")
+
+                # Create a new test suite
+
+                if len(all_files_nii_compressed) == 0:
+                    _logger.error("No files found in path")
+                    return
+                else:
+                    _logger.info("Complete")
+                    _logger.info("Starting data profiling")
+                    suite = sg.FioraSuiteGenerator(all_files_nii_compressed, suitename)
+                    suite.catch_metrics()
+                    suite.create_suite()
+                    _logger.info("Complete")
             else:
-                console.print("Invalid id", style="bold red")
+                console.print("Path does not exist", style="bold red")
+                _logger.error("Path does not exist")
+                return
 
     if kwargs["validate"]:
         path_to_data = kwargs["validate"][2]
         if os.path.exists(path_to_data):
-            name_of_suite = kwargs["validate"][1]
-            if os.path.exists(f"Fiora_strc/test_suites/{name_of_suite}.json"):
-                console.print(f"Starting validation", style="bold cyan")
-                results, id = fv.validate(path_to_data, name_of_suite)
-                console.print(f"Id of validation test {id}", style="bold cyan")
-                console.print(results, style="bold cyan")
-                # count the number of false results and true results
-                false_results = 0
-                true_results = 0
-                for cat in results:
-                    # if is dict
-                    if isinstance(results[cat], dict):
-                        for key in results[cat]:
-                            if results[cat][key] == False:
-                                false_results += 1
-                            else:
-                                true_results += 1
-                    else:
-                        if results[cat] == False:
-                            false_results += 1
-                        else:
-                            true_results += 1
-                console.print(f"{false_results} Tests failed.", style="bold cyan")
-                console.print(f"{true_results} Tests passed.", style="bold cyan")
-                return results, id
-            else:
-                console.print("test suite does not exist", style="bold red")
+            all_files_nii_compressed = glob.glob(os.path.join(path_to_data, "*.nii.gz"))
+            if len(all_files_nii_compressed) == 0:
+                _logger.error("No files found in path")
                 return
-        else:
-            console.print("data path does not exist", style="bold red")
-            return
-    #     print(kwargs["validate"])
-    # _logger.debug("Starting crazy calculations...")
+            else:
+                # log how many found
+                _logger.info(f"Found {len(all_files_nii_compressed)} file(s) to be tested with suite {kwargs['validate'][1]}")
+                name_of_suite = kwargs["validate"][1]
+                if os.path.exists(f"{vp.module_folder_name}/test_suites/{name_of_suite}.json"):
+                    _logger.info("Starting validation")
+                    _logger.info(f"Id of validation test {id}")
+                    
+                    # Validate a test suite
+                    suite = st.DataTester(name_of_suite, all_files_nii_compressed)
+                    results = suite.validate()
+                    _logger.info("Complete")
+                    # log results
+                    _logger.info(f"Results: {results}")
+                else:
+                    _logger.error("Suite does not exist")
+                    return
 
-    # _logger.info("Script ends here")
+
+                
+                
 
 
 if __name__ == "__main__":

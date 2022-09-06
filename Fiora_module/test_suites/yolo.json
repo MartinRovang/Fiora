@@ -1,0 +1,50 @@
+{
+    "GetNumInfs": {
+        "min": 0.0,
+        "max": 0.0
+    },
+    "GetNumNans": {
+        "min": 0.0,
+        "max": 0.0
+    },
+    "GetNumNegatives": {
+        "min": 21986.0,
+        "max": 21986.0
+    },
+    "MaxValues": {
+        "min": 658.798,
+        "max": 658.798
+    },
+    "MeanValues": {
+        "min": 56.786,
+        "max": 56.786
+    },
+    "MedianValues": {
+        "min": 4.859,
+        "max": 4.859
+    },
+    "MinValues": {
+        "min": -19.864,
+        "max": -19.864
+    },
+    "PercentageForeground": {
+        "min": 0.55,
+        "max": 0.55
+    },
+    "Q05Values": {
+        "min": 0.0,
+        "max": 0.0
+    },
+    "Q1Values": {
+        "min": 0.0,
+        "max": 0.0
+    },
+    "Q3Values": {
+        "min": 79.747,
+        "max": 79.747
+    },
+    "Q95Values": {
+        "min": 271.609,
+        "max": 271.609
+    }
+}

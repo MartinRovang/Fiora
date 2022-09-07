@@ -3,6 +3,9 @@ from skimage.transform import resize
 # import typestting union
 from typing import Union
 
+import coloredlogs, logging
+import glob
+coloredlogs.install()
 
 class MedianValues:
     """Tests or gathers the median values of the data, for both the test and reference data"""
@@ -262,7 +265,7 @@ class GetNumInfs:
         self.memory.append(num_infs)
     def make_test(self, **kwargs) -> dict:
         """Make the test for the suite"""
-        return {self.__class__.__name__: {"min": float(round(min(self.memory),3)), "max": float(round(max(self.memory),3))}}
+        return {self.__class__.__name__: {"amount": float(np.sum(self.memory))}}
     def tester(self, **kwargs) -> Union[bool, str]:
         """Test the data against the suite"""
         data = kwargs["data"]
@@ -270,7 +273,7 @@ class GetNumInfs:
         if self.__class__.__name__ in suite:
             num_infs = np.isinf(data).sum()
             self.test_val = float(num_infs)
-            if suite[self.__class__.__name__]["min"] <= self.test_val <= suite[self.__class__.__name__]["max"]:
+            if self.test_val == 0:
                 return True
             else:
                 return False
@@ -289,7 +292,7 @@ class GetNumNans:
         self.memory.append(num_nans)
     def make_test(self, **kwargs) -> dict:
         """Make the test for the suite"""
-        return {self.__class__.__name__: {"min": float(round(min(self.memory),3)), "max": float(round(max(self.memory),3))}}
+        return {self.__class__.__name__: {"amount": float(np.sum(self.memory))}}
     def tester(self, **kwargs) -> Union[bool, str]:
         """Test the data against the suite"""
         data = kwargs["data"]
@@ -297,7 +300,7 @@ class GetNumNans:
         if self.__class__.__name__ in suite:
             num_nans = np.isnan(data).sum()
             self.test_val = float(num_nans)
-            if suite[self.__class__.__name__]["min"] <= self.test_val <= suite[self.__class__.__name__]["max"]:
+            if self.test_val == 0:
                 return True
             else:
                 return False
@@ -345,7 +348,7 @@ class OrientiationCheck:
         downsampled_brain = np.array(resize(data, (124, 124, 124), mode="constant", order = 3))
 
         downsampled_brain = downsampled_brain - np.mean(downsampled_brain)
-        downsampled_brain = downsampled_brain / np.std(downsampled_brain)
+        downsampled_brain = downsampled_brain / np.std(downsampled_brain+1e-10)
         if len(self.memory) == 0:
             self.memory = downsampled_brain
         else:
@@ -370,7 +373,7 @@ class OrientiationCheck:
             data = np.array(resize(data, (124, 124, 124), mode="constant", order = 3))
             slice_axis = brain_mean_ref.shape[0]
             data = data - np.mean(data)
-            data = data / np.std(data)
+            data = data / np.std(data+1e-10)
             for i in range(slice_axis):
                 targets = brain_mean_ref[i, :, :]
                 targets = targets > 0
@@ -440,7 +443,25 @@ class DuplicateCheck:
         self.memory[pat_id] = data
     def make_test(self, **kwargs) -> dict:
         """Consolidate the metrics for testing"""
+        
+        # test on itself to see if there is any duplicates in the reference data
+        self.self_tester()
         return {self.__class__.__name__: {"centre_slices_downsampled": self.memory}}
+    
+    def self_tester(self) -> None:
+        """Test the reference data for duplicates"""
+        self.temp_duplicate_name_list = []
+        self.temp_duplicate_list = []
+        for key, value in self.memory.items():
+            for key2, value2 in self.memory.items():
+                if key != key2 and key not in self.temp_duplicate_name_list and key2 not in self.temp_duplicate_name_list:
+                    #check same array
+                    self.temp_duplicate_name_list.append(key)
+                    duplicate_test = np.array_equal(value, value2)
+                    if duplicate_test:
+                        # print
+                        self.temp_duplicate_list.append([key, key2])
+
     def tester(self, **kwargs) -> Union[bool, str]:
         """ Test the duplicate correlation of the test suite"""
         data = kwargs["data"]

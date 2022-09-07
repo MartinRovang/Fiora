@@ -10,3 +10,5 @@ rich
 mypy
 pyyaml
 scipy
+coloredlogs
+scikit-image

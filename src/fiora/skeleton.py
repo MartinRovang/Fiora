@@ -122,7 +122,6 @@ def main(**kwargs):
         _logger.info("Initializing the project")
         # Initialize the project
         # Make directory structure
-        console.print("Building directory structure", style="bold cyan")
         # log
         _logger.info("Building directory structure")
         os.makedirs(f"{vp.module_folder_name}", exist_ok=True)
@@ -135,7 +134,6 @@ def main(**kwargs):
 
     if kwargs["suite"]:
         if kwargs["suite"] != "new":
-            console.print("Invalid command for suite", style="bold red")
             _logger.error("Invalid command for suite")
         else:
             data_path = Prompt.ask("""Insert path the suite will be based on (Only works for nii.gz files)""")
@@ -161,7 +159,6 @@ def main(**kwargs):
                     suite.create_suite()
                     _logger.info("Complete")
             else:
-                console.print("Path does not exist", style="bold red")
                 _logger.error("Path does not exist")
                 return
 
@@ -177,23 +174,32 @@ def main(**kwargs):
                 _logger.info(f"Found {len(all_files_nii_compressed)} file(s) to be tested with suite {kwargs['validate'][1]}")
                 name_of_suite = kwargs["validate"][1]
                 if os.path.exists(f"{vp.module_folder_name}/test_suites/{name_of_suite}.json"):
-                    _logger.info("Starting validation")
-                    _logger.info(f"Id of validation test {id}")
+                    _logger.info(f"Starting validation using suite: {name_of_suite}")
                     
                     # Validate a test suite
                     suite = st.DataTester(name_of_suite, all_files_nii_compressed)
                     results = suite.validate()
+
+                    with open(f"{vp.module_folder_name}/validations/reports/{name_of_suite}_targetreport.json", "w") as f:
+                        json.dump(suite.testing_values, f)
+                    with open(f"{vp.module_folder_name}/validations/reports/{name_of_suite}_suitereport.json", "w") as f:
+                        json.dump(results, f)
+                    # count number of failed tests
+                    for key, value in results.items():
+                        # if a dict
+                        if isinstance(value, list):
+                            for d in value:
+                                for key2, value2 in d.items():
+                                    if value2 == False:
+                                        _logger.error(f"Test {key2} failed for {key}")
+                        else:
+                            if value == False:
+                                _logger.error(f"Test {key} failed")
                     _logger.info("Complete")
                     # log results
-                    _logger.info(f"Results: {results}")
                 else:
                     _logger.error("Suite does not exist")
                     return
-
-
-                
-                
-
 
 if __name__ == "__main__":
     main()

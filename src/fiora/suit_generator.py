@@ -19,10 +19,12 @@ class FioraSuiteGenerator:
     def catch_metrics(self):
         """Catch the metrics from the test modules"""
         for file in tqdm(self.files):
+            id = file.split("/")[-1].split(".")[0]
+            id = id.split("\\")[-1]
             img = nib.load(file)
             data = img.get_fdata()
             for class_test in self.all_tests:
-                class_test.run(data)
+                class_test.run(data = data, pat_id = id)
     
     def create_suite(self):
         """Create the suite file"""

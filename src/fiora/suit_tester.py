@@ -38,7 +38,7 @@ class DataTester:
             self.all_tests.append(test[1]())
         _logger.info(f"Loaded {orginal_tests_len} tests from Fiora and {custom_tests_len} custom tests")
     
-    def validate(self):
+    def validate(self) -> dict:
         """test the metrics from the test modules"""
         results_tests = {}
         for file in tqdm(self.files):

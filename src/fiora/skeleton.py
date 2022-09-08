@@ -210,9 +210,9 @@ class MeanValues: #<--- Change the name of your test
                     results = suite.validate()
 
                     with open(f"{vp.module_folder_name}/validations/reports/{name_of_suite}_targetreport.json", "w") as f:
-                        json.dump(suite.testing_values, f)
+                        json.dump(suite.testing_values, f, indent=4)
                     with open(f"{vp.module_folder_name}/validations/reports/{name_of_suite}_suitereport.json", "w") as f:
-                        json.dump(results, f)
+                        json.dump(results, f, indent=4)
                     # count number of failed tests
                     num_failed = 0
                     num_of_tests = 0
@@ -223,10 +223,10 @@ class MeanValues: #<--- Change the name of your test
                             for d in value:
                                 for key2, value2 in d.items():
                                     if value2 == False:
-                                        _logger.error(f"Test {key2} failed for {key}")
+                                        _logger.error(f"Test {key} failed for {key2}")
                                         num_failed += 1
                                     else:
-                                        _logger.success(f"Test {key2} passed for {key}")
+                                        _logger.success(f"Test {key} passed for {key2}")
                         else:
                             if value == False:
                                 num_failed += 1

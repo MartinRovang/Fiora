@@ -37,7 +37,7 @@ class FioraSuiteGenerator:
         for test in class_tests:
             self.all_tests.append(test[1]())
     
-    def catch_metrics(self):
+    def catch_metrics(self) -> None:
         """Catch the metrics from the test modules"""
         for file in tqdm(self.files):
             id = file.split("/")[-1].split(".")[0]
@@ -47,7 +47,7 @@ class FioraSuiteGenerator:
             for class_test in self.all_tests:
                 class_test.run(data = data, pat_id = id)
     
-    def create_suite(self):
+    def create_suite(self) -> None:
         """Create the suite file"""
         suite = {}
         for class_test in self.all_tests:

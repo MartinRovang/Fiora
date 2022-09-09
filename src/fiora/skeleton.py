@@ -191,7 +191,6 @@ class MeanValues: #<--- Change the name of your test
         _logger.success(f"Custom test added {vp.module_folder_name}/{kwargs['custom_test']}_fioraT.py, please edit the file to your needs. File must end with _fioraT.py")
 
     if kwargs["validate"]:
-        print(kwargs["validate"])
         path_to_data = kwargs["validate"][1]
         if os.path.exists(path_to_data):
             all_files_nii_compressed = glob.glob(os.path.join(path_to_data, "*.nii.gz"))
@@ -234,7 +233,6 @@ class MeanValues: #<--- Change the name of your test
                             else:
                                 _logger.success(f"Test {key} passed")
                     # logg the ones passed
-                    _logger.info("Complete")
                     _logger.info(f"Number of tests passed: {num_of_tests - num_failed}/{num_of_tests}")
                 else:
                     _logger.error("Suite does not exist")

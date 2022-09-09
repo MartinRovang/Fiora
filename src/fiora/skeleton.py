@@ -1,28 +1,10 @@
 """
-This is a skeleton file that can serve as a starting point for a Python
-console script. To run this script uncomment the following lines in the
-``[options.entry_points]`` section in ``setup.cfg``::
-
-    console_scripts =
-         fibonacci = fiora.skeleton:run
-
-Then run ``pip install .`` (or ``pip install -e .`` for editable mode)
-which will install the command ``fibonacci`` inside your current environment.
-
-Besides console scripts, the header (i.e. until ``_logger``...) of this file can
-also be used as template for Python modules.
-
-Note:
-    This file can be renamed depending on your needs or safely removed if not needed.
-
-References:
-    - https://setuptools.pypa.io/en/latest/userguide/entry_point.html
-    - https://pip.pypa.io/en/stable/reference/pip_install
+This is the main entry point of the application.
 """
 
-
-import coloredlogs, logging
+import coloredlogs, logging, verboselogs
 coloredlogs.install()
+verboselogs.install()
 import os
 import sys
 import click
@@ -32,15 +14,13 @@ from rich.progress import track
 import time
 from rich.prompt import Prompt
 import glob
-import uuid
-import yaml
 import fiora.vars_and_path as vp
 import fiora.suit_generator as sg
 import fiora.suit_tester as st
 import json
 
-__author__ = "Martin RÃ¸vang"
-__copyright__ = "Martin RÃ¸vang"
+__author__ = "Martin Soria Røvang"
+__copyright__ = "Martin Soria Røvang"
 __license__ = "MIT"
 
 _logger = logging.getLogger(__name__)
@@ -80,7 +60,22 @@ def setup_logging(loglevel):
     flag_value=logging.DEBUG,
 )
 @click.option("--version", help="Version of the app", is_flag=True, default=False)
-@click.argument("validate", nargs=3, default=None, required=False)
+# validate option takes two string arguments name of suite and path to target data
+@click.option(
+    "--validate",
+    help="Use a test suite to validate on a target data example: validate suite_name path_to_target_data",
+    nargs=2,
+    type=click.STRING,
+    default=None,
+)
+# custom_test option takes one string arguments name of test
+@click.option(
+    "--custom_test",
+    help="Create a custom test: custom_test test_name",
+    nargs=1,
+    type=click.STRING,
+    default=None,
+)
 def main(**kwargs):
     """
     Console script for fiora.
@@ -129,6 +124,7 @@ def main(**kwargs):
         os.makedirs(f"{vp.module_folder_name}/test_suites/reports", exist_ok=True)
         os.makedirs(f"{vp.module_folder_name}/validations", exist_ok=True)
         os.makedirs(f"{vp.module_folder_name}/validations/reports", exist_ok=True)
+        os.makedirs(f"{vp.module_folder_name}/custom_tests", exist_ok=True)
         # log
         _logger.info("Completed")
 
@@ -153,17 +149,50 @@ def main(**kwargs):
                     return
                 else:
                     _logger.info("Complete")
-                    _logger.info("Starting data profiling")
-                    suite = sg.FioraSuiteGenerator(all_files_nii_compressed, suitename)
+                    suite = sg.FioraSuiteGenerator(all_files_nii_compressed, suitename, _logger)
                     suite.catch_metrics()
                     suite.create_suite()
                     _logger.info("Complete")
             else:
                 _logger.error("Path does not exist")
                 return
+    
+    if kwargs["custom_test"]:
+        output = '''
+from typing import Union
+
+class MeanValues: #<--- Change the name of your test
+    """Tests or gathers the mean values of the data, for both the test and reference data"""
+    def __init__(self):
+        """Initialize the variables needed for the test, memory is the basic variable for storing the results"""
+        self.memory = [] #<--- This is where the individual values from the data are stored
+    def run(self, **kwargs) -> None:
+        """Run the test and store the results in memory"""
+        data = kwargs["data"] #<--- This is the data that is passed to the metrics
+        mean_val = np.mean(data) # <--- Change this line to your test metric
+        self.memory.append(mean_val) #<--- This is where the individual metrics are stored
+    def make_test(self, **kwargs) -> dict:
+        """Make the test for the suite"""
+        return {self.__class__.__name__: {"min": float(round(min(self.memory),3)), "max": float(round(max(self.memory),3))}} #<--- This is where the test critera is defined
+    def tester(self, **kwargs) -> Union[bool, str]:
+        """Test the data against the suite"""
+        data = kwargs["data"] #<--- This is the data that is passed to the metrics
+        suite = kwargs["suite"] #<--- This is the suite that defines the test criteria
+        if self.__class__.__name__ in suite:
+            self.test_val = float(round(np.mean(data),3)) #<--- This is where the test metric for the target data is defined
+            if suite[self.__class__.__name__]["min"] <= self.test_val <= suite[self.__class__.__name__]["max"]: #<--- This is where the test criteria is made
+                return True
+            else:
+                return False
+        else:
+            return "N/A"'''
+        with open(f"{vp.module_folder_name}/custom_tests/{kwargs['custom_test']}_fioraT.py", "w") as f:
+            f.write(output)
+        _logger.success(f"Custom test added {vp.module_folder_name}/{kwargs['custom_test']}_fioraT.py, please edit the file to your needs. File must end with _fioraT.py")
 
     if kwargs["validate"]:
-        path_to_data = kwargs["validate"][2]
+        print(kwargs["validate"])
+        path_to_data = kwargs["validate"][1]
         if os.path.exists(path_to_data):
             all_files_nii_compressed = glob.glob(os.path.join(path_to_data, "*.nii.gz"))
             if len(all_files_nii_compressed) == 0:
@@ -171,32 +200,42 @@ def main(**kwargs):
                 return
             else:
                 # log how many found
-                _logger.info(f"Found {len(all_files_nii_compressed)} file(s) to be tested with suite {kwargs['validate'][1]}")
-                name_of_suite = kwargs["validate"][1]
+                _logger.info(f"Found {len(all_files_nii_compressed)} file(s) to be tested with suite {kwargs['validate'][0]}")
+                name_of_suite = kwargs["validate"][0]
                 if os.path.exists(f"{vp.module_folder_name}/test_suites/{name_of_suite}.json"):
                     _logger.info(f"Starting validation using suite: {name_of_suite}")
                     
                     # Validate a test suite
-                    suite = st.DataTester(name_of_suite, all_files_nii_compressed)
+                    suite = st.DataTester(name_of_suite, all_files_nii_compressed, _logger)
                     results = suite.validate()
 
                     with open(f"{vp.module_folder_name}/validations/reports/{name_of_suite}_targetreport.json", "w") as f:
-                        json.dump(suite.testing_values, f)
+                        json.dump(suite.testing_values, f, indent=4)
                     with open(f"{vp.module_folder_name}/validations/reports/{name_of_suite}_suitereport.json", "w") as f:
-                        json.dump(results, f)
+                        json.dump(results, f, indent=4)
                     # count number of failed tests
+                    num_failed = 0
+                    num_of_tests = 0
                     for key, value in results.items():
+                        num_of_tests += 1
                         # if a dict
                         if isinstance(value, list):
                             for d in value:
                                 for key2, value2 in d.items():
                                     if value2 == False:
-                                        _logger.error(f"Test {key2} failed for {key}")
+                                        _logger.error(f"Test {key} failed for {key2}")
+                                        num_failed += 1
+                                    else:
+                                        _logger.success(f"Test {key} passed for {key2}")
                         else:
                             if value == False:
+                                num_failed += 1
                                 _logger.error(f"Test {key} failed")
+                            else:
+                                _logger.success(f"Test {key} passed")
+                    # logg the ones passed
                     _logger.info("Complete")
-                    # log results
+                    _logger.info(f"Number of tests passed: {num_of_tests - num_failed}/{num_of_tests}")
                 else:
                     _logger.error("Suite does not exist")
                     return

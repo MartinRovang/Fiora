@@ -1,0 +1,586 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>fiora package &#8212; Fiora 0.0.7.post1.dev1+gaa25854.d20220909 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="fiora" href="modules.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="fiora-package">
+<h1>fiora package<a class="headerlink" href="#fiora-package" title="Permalink to this headline">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-fiora.skeleton">
+<span id="fiora-skeleton-module"></span><h2>fiora.skeleton module<a class="headerlink" href="#module-fiora.skeleton" title="Permalink to this headline">¶</a></h2>
+<p>This is the main entry point of the application.</p>
+<dl class="py function">
+<dt id="fiora.skeleton.setup_logging">
+<code class="sig-prename descclassname">fiora.skeleton.</code><code class="sig-name descname">setup_logging</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">loglevel</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fiora/skeleton.html#setup_logging"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.skeleton.setup_logging" title="Permalink to this definition">¶</a></dt>
+<dd><p>Setup basic logging</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>loglevel</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – minimum loglevel for emitting messages</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-fiora.suit_generator">
+<span id="fiora-suit-generator-module"></span><h2>fiora.suit_generator module<a class="headerlink" href="#module-fiora.suit_generator" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="fiora.suit_generator.FioraSuiteGenerator">
+<em class="property">class </em><code class="sig-prename descclassname">fiora.suit_generator.</code><code class="sig-name descname">FioraSuiteGenerator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">files</span></em>, <em class="sig-param"><span class="n">suitename</span></em>, <em class="sig-param"><span class="n">_logger</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fiora/suit_generator.html#FioraSuiteGenerator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.suit_generator.FioraSuiteGenerator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.10/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Suite generator for creating the test suite file</p>
+<dl class="py method">
+<dt id="fiora.suit_generator.FioraSuiteGenerator.catch_metrics">
+<code class="sig-name descname">catch_metrics</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)">None</a><a class="reference internal" href="../_modules/fiora/suit_generator.html#FioraSuiteGenerator.catch_metrics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.suit_generator.FioraSuiteGenerator.catch_metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Catch the metrics from the test modules</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.suit_generator.FioraSuiteGenerator.create_suite">
+<code class="sig-name descname">create_suite</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)">None</a><a class="reference internal" href="../_modules/fiora/suit_generator.html#FioraSuiteGenerator.create_suite"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.suit_generator.FioraSuiteGenerator.create_suite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the suite file</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-fiora.suit_tester">
+<span id="fiora-suit-tester-module"></span><h2>fiora.suit_tester module<a class="headerlink" href="#module-fiora.suit_tester" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="fiora.suit_tester.DataTester">
+<em class="property">class </em><code class="sig-prename descclassname">fiora.suit_tester.</code><code class="sig-name descname">DataTester</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">suitename</span></em>, <em class="sig-param"><span class="n">files</span></em>, <em class="sig-param"><span class="n">_logger</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fiora/suit_tester.html#DataTester"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.suit_tester.DataTester" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.10/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Suite generator for creating the test suite file</p>
+<dl class="py method">
+<dt id="fiora.suit_tester.DataTester.validate">
+<code class="sig-name descname">validate</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#dict" title="(in Python v3.10)">dict</a><a class="reference internal" href="../_modules/fiora/suit_tester.html#DataTester.validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.suit_tester.DataTester.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>test the metrics from the test modules</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-fiora.test_modules">
+<span id="fiora-test-modules-module"></span><h2>fiora.test_modules module<a class="headerlink" href="#module-fiora.test_modules" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="fiora.test_modules.DataType">
+<em class="property">class </em><code class="sig-prename descclassname">fiora.test_modules.</code><code class="sig-name descname">DataType</code><a class="reference internal" href="../_modules/fiora/test_modules.html#DataType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.DataType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.10/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Tests or gathers the data type of the data, for both the test and reference data</p>
+<dl class="py method">
+<dt id="fiora.test_modules.DataType.make_test">
+<code class="sig-name descname">make_test</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#dict" title="(in Python v3.10)">dict</a><a class="reference internal" href="../_modules/fiora/test_modules.html#DataType.make_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.DataType.make_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make the test for the suite</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.DataType.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)">None</a><a class="reference internal" href="../_modules/fiora/test_modules.html#DataType.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.DataType.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the test and store the results in memory</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.DataType.tester">
+<code class="sig-name descname">tester</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)">bool</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)">str</a><span class="p">]</span><a class="reference internal" href="../_modules/fiora/test_modules.html#DataType.tester"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.DataType.tester" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the data against the suite</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="fiora.test_modules.DuplicateCheck">
+<em class="property">class </em><code class="sig-prename descclassname">fiora.test_modules.</code><code class="sig-name descname">DuplicateCheck</code><a class="reference internal" href="../_modules/fiora/test_modules.html#DuplicateCheck"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.DuplicateCheck" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.10/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Tests or gathers the number of duplicate datapoints, for both the test and reference data</p>
+<dl class="py method">
+<dt id="fiora.test_modules.DuplicateCheck.make_test">
+<code class="sig-name descname">make_test</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#dict" title="(in Python v3.10)">dict</a><a class="reference internal" href="../_modules/fiora/test_modules.html#DuplicateCheck.make_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.DuplicateCheck.make_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Consolidate the metrics for testing</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.DuplicateCheck.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)">None</a><a class="reference internal" href="../_modules/fiora/test_modules.html#DuplicateCheck.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.DuplicateCheck.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run through the data and gathers needed data</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.DuplicateCheck.self_tester">
+<code class="sig-name descname">self_tester</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)">None</a><a class="reference internal" href="../_modules/fiora/test_modules.html#DuplicateCheck.self_tester"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.DuplicateCheck.self_tester" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the reference data for duplicates</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.DuplicateCheck.tester">
+<code class="sig-name descname">tester</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)">bool</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)">str</a><span class="p">]</span><a class="reference internal" href="../_modules/fiora/test_modules.html#DuplicateCheck.tester"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.DuplicateCheck.tester" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the duplicate correlation of the test suite</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="fiora.test_modules.GetNumNegatives">
+<em class="property">class </em><code class="sig-prename descclassname">fiora.test_modules.</code><code class="sig-name descname">GetNumNegatives</code><a class="reference internal" href="../_modules/fiora/test_modules.html#GetNumNegatives"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.GetNumNegatives" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.10/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Tests or gathers the number of negative values in the data, for both the test and reference data</p>
+<dl class="py method">
+<dt id="fiora.test_modules.GetNumNegatives.make_test">
+<code class="sig-name descname">make_test</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#dict" title="(in Python v3.10)">dict</a><a class="reference internal" href="../_modules/fiora/test_modules.html#GetNumNegatives.make_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.GetNumNegatives.make_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make the test for the suite</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.GetNumNegatives.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)">None</a><a class="reference internal" href="../_modules/fiora/test_modules.html#GetNumNegatives.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.GetNumNegatives.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the test and store the results in memory</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.GetNumNegatives.tester">
+<code class="sig-name descname">tester</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)">bool</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)">str</a><span class="p">]</span><a class="reference internal" href="../_modules/fiora/test_modules.html#GetNumNegatives.tester"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.GetNumNegatives.tester" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the data against the suite</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="fiora.test_modules.MaxValues">
+<em class="property">class </em><code class="sig-prename descclassname">fiora.test_modules.</code><code class="sig-name descname">MaxValues</code><a class="reference internal" href="../_modules/fiora/test_modules.html#MaxValues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.MaxValues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.10/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Tests or gathers the max values of the data, for both the test and reference data</p>
+<dl class="py method">
+<dt id="fiora.test_modules.MaxValues.make_test">
+<code class="sig-name descname">make_test</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#dict" title="(in Python v3.10)">dict</a><a class="reference internal" href="../_modules/fiora/test_modules.html#MaxValues.make_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.MaxValues.make_test" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.MaxValues.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)">None</a><a class="reference internal" href="../_modules/fiora/test_modules.html#MaxValues.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.MaxValues.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the test and store the results in memory</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.MaxValues.tester">
+<code class="sig-name descname">tester</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)">bool</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)">str</a><span class="p">]</span><a class="reference internal" href="../_modules/fiora/test_modules.html#MaxValues.tester"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.MaxValues.tester" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the data against the suite</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="fiora.test_modules.MeanValues">
+<em class="property">class </em><code class="sig-prename descclassname">fiora.test_modules.</code><code class="sig-name descname">MeanValues</code><a class="reference internal" href="../_modules/fiora/test_modules.html#MeanValues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.MeanValues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.10/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Tests or gathers the mean values of the data, for both the test and reference data</p>
+<dl class="py method">
+<dt id="fiora.test_modules.MeanValues.make_test">
+<code class="sig-name descname">make_test</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#dict" title="(in Python v3.10)">dict</a><a class="reference internal" href="../_modules/fiora/test_modules.html#MeanValues.make_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.MeanValues.make_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make the test for the suite</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.MeanValues.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)">None</a><a class="reference internal" href="../_modules/fiora/test_modules.html#MeanValues.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.MeanValues.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the test and store the results in memory</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.MeanValues.tester">
+<code class="sig-name descname">tester</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)">bool</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)">str</a><span class="p">]</span><a class="reference internal" href="../_modules/fiora/test_modules.html#MeanValues.tester"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.MeanValues.tester" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the data against the suite</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="fiora.test_modules.MedianValues">
+<em class="property">class </em><code class="sig-prename descclassname">fiora.test_modules.</code><code class="sig-name descname">MedianValues</code><a class="reference internal" href="../_modules/fiora/test_modules.html#MedianValues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.MedianValues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.10/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Tests or gathers the median values of the data, for both the test and reference data</p>
+<dl class="py method">
+<dt id="fiora.test_modules.MedianValues.make_test">
+<code class="sig-name descname">make_test</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#dict" title="(in Python v3.10)">dict</a><a class="reference internal" href="../_modules/fiora/test_modules.html#MedianValues.make_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.MedianValues.make_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make the test for the suite</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.MedianValues.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)">None</a><a class="reference internal" href="../_modules/fiora/test_modules.html#MedianValues.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.MedianValues.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the test and store the results in memory</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.MedianValues.tester">
+<code class="sig-name descname">tester</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)">bool</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)">str</a><span class="p">]</span><a class="reference internal" href="../_modules/fiora/test_modules.html#MedianValues.tester"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.MedianValues.tester" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the data against the suite</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="fiora.test_modules.MinValues">
+<em class="property">class </em><code class="sig-prename descclassname">fiora.test_modules.</code><code class="sig-name descname">MinValues</code><a class="reference internal" href="../_modules/fiora/test_modules.html#MinValues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.MinValues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.10/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Tests or gathers the min values of the data, for both the test and reference data</p>
+<dl class="py method">
+<dt id="fiora.test_modules.MinValues.make_test">
+<code class="sig-name descname">make_test</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#dict" title="(in Python v3.10)">dict</a><a class="reference internal" href="../_modules/fiora/test_modules.html#MinValues.make_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.MinValues.make_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make the test for the suite</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.MinValues.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)">None</a><a class="reference internal" href="../_modules/fiora/test_modules.html#MinValues.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.MinValues.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the test and store the results in memory</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.MinValues.tester">
+<code class="sig-name descname">tester</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)">bool</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)">str</a><span class="p">]</span><a class="reference internal" href="../_modules/fiora/test_modules.html#MinValues.tester"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.MinValues.tester" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the data against the suite</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="fiora.test_modules.NumInfs">
+<em class="property">class </em><code class="sig-prename descclassname">fiora.test_modules.</code><code class="sig-name descname">NumInfs</code><a class="reference internal" href="../_modules/fiora/test_modules.html#NumInfs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.NumInfs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.10/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Tests or gathers the number of inf values in the data, for both the test and reference data</p>
+<dl class="py method">
+<dt id="fiora.test_modules.NumInfs.make_test">
+<code class="sig-name descname">make_test</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#dict" title="(in Python v3.10)">dict</a><a class="reference internal" href="../_modules/fiora/test_modules.html#NumInfs.make_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.NumInfs.make_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make the test for the suite</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.NumInfs.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)">None</a><a class="reference internal" href="../_modules/fiora/test_modules.html#NumInfs.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.NumInfs.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the test and store the results in memory</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.NumInfs.tester">
+<code class="sig-name descname">tester</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)">bool</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)">str</a><span class="p">]</span><a class="reference internal" href="../_modules/fiora/test_modules.html#NumInfs.tester"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.NumInfs.tester" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the data against the suite</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="fiora.test_modules.NumNans">
+<em class="property">class </em><code class="sig-prename descclassname">fiora.test_modules.</code><code class="sig-name descname">NumNans</code><a class="reference internal" href="../_modules/fiora/test_modules.html#NumNans"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.NumNans" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.10/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Tests or gathers the number of nan values in the data, for both the test and reference data</p>
+<dl class="py method">
+<dt id="fiora.test_modules.NumNans.make_test">
+<code class="sig-name descname">make_test</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#dict" title="(in Python v3.10)">dict</a><a class="reference internal" href="../_modules/fiora/test_modules.html#NumNans.make_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.NumNans.make_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make the test for the suite</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.NumNans.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)">None</a><a class="reference internal" href="../_modules/fiora/test_modules.html#NumNans.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.NumNans.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the test and store the results in memory</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.NumNans.tester">
+<code class="sig-name descname">tester</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)">bool</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)">str</a><span class="p">]</span><a class="reference internal" href="../_modules/fiora/test_modules.html#NumNans.tester"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.NumNans.tester" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the data against the suite</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="fiora.test_modules.OrientiationCheck">
+<em class="property">class </em><code class="sig-prename descclassname">fiora.test_modules.</code><code class="sig-name descname">OrientiationCheck</code><a class="reference internal" href="../_modules/fiora/test_modules.html#OrientiationCheck"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.OrientiationCheck" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.10/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Tests or gathers the orientation of the data, for both the test and reference data</p>
+<dl class="py method">
+<dt id="fiora.test_modules.OrientiationCheck.make_test">
+<code class="sig-name descname">make_test</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#dict" title="(in Python v3.10)">dict</a><a class="reference internal" href="../_modules/fiora/test_modules.html#OrientiationCheck.make_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.OrientiationCheck.make_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Consolidate the metrics for testing</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.OrientiationCheck.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)">None</a><a class="reference internal" href="../_modules/fiora/test_modules.html#OrientiationCheck.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.OrientiationCheck.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the test and store the results in memory</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.OrientiationCheck.tester">
+<code class="sig-name descname">tester</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)">bool</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)">str</a><span class="p">]</span><a class="reference internal" href="../_modules/fiora/test_modules.html#OrientiationCheck.tester"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.OrientiationCheck.tester" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the orientation correlation of the test suite</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="fiora.test_modules.PercentageForeground">
+<em class="property">class </em><code class="sig-prename descclassname">fiora.test_modules.</code><code class="sig-name descname">PercentageForeground</code><a class="reference internal" href="../_modules/fiora/test_modules.html#PercentageForeground"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.PercentageForeground" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.10/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Tests or gathers the percentage of foreground pixels in the data, for both the test and reference data</p>
+<dl class="py method">
+<dt id="fiora.test_modules.PercentageForeground.make_test">
+<code class="sig-name descname">make_test</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#dict" title="(in Python v3.10)">dict</a><a class="reference internal" href="../_modules/fiora/test_modules.html#PercentageForeground.make_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.PercentageForeground.make_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make the test for the suite</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.PercentageForeground.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)">None</a><a class="reference internal" href="../_modules/fiora/test_modules.html#PercentageForeground.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.PercentageForeground.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the test and store the results in memory</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.PercentageForeground.tester">
+<code class="sig-name descname">tester</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)">bool</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)">str</a><span class="p">]</span><a class="reference internal" href="../_modules/fiora/test_modules.html#PercentageForeground.tester"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.PercentageForeground.tester" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the data against the suite</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="fiora.test_modules.Q05Values">
+<em class="property">class </em><code class="sig-prename descclassname">fiora.test_modules.</code><code class="sig-name descname">Q05Values</code><a class="reference internal" href="../_modules/fiora/test_modules.html#Q05Values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.Q05Values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.10/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Tests or gathers the 5th percentile values of the data, for both the test and reference data</p>
+<dl class="py method">
+<dt id="fiora.test_modules.Q05Values.make_test">
+<code class="sig-name descname">make_test</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#dict" title="(in Python v3.10)">dict</a><a class="reference internal" href="../_modules/fiora/test_modules.html#Q05Values.make_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.Q05Values.make_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make the test for the suite</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.Q05Values.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)">None</a><a class="reference internal" href="../_modules/fiora/test_modules.html#Q05Values.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.Q05Values.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the test and store the results in memory</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.Q05Values.tester">
+<code class="sig-name descname">tester</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)">bool</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)">str</a><span class="p">]</span><a class="reference internal" href="../_modules/fiora/test_modules.html#Q05Values.tester"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.Q05Values.tester" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the data against the suite</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="fiora.test_modules.Q1Values">
+<em class="property">class </em><code class="sig-prename descclassname">fiora.test_modules.</code><code class="sig-name descname">Q1Values</code><a class="reference internal" href="../_modules/fiora/test_modules.html#Q1Values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.Q1Values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.10/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Tests or gathers the 1st quartile values of the data, for both the test and reference data</p>
+<dl class="py method">
+<dt id="fiora.test_modules.Q1Values.make_test">
+<code class="sig-name descname">make_test</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#dict" title="(in Python v3.10)">dict</a><a class="reference internal" href="../_modules/fiora/test_modules.html#Q1Values.make_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.Q1Values.make_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make the test for the suite</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.Q1Values.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)">None</a><a class="reference internal" href="../_modules/fiora/test_modules.html#Q1Values.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.Q1Values.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the test and store the results in memory</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.Q1Values.tester">
+<code class="sig-name descname">tester</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)">bool</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)">str</a><span class="p">]</span><a class="reference internal" href="../_modules/fiora/test_modules.html#Q1Values.tester"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.Q1Values.tester" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the data against the suite</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="fiora.test_modules.Q3Values">
+<em class="property">class </em><code class="sig-prename descclassname">fiora.test_modules.</code><code class="sig-name descname">Q3Values</code><a class="reference internal" href="../_modules/fiora/test_modules.html#Q3Values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.Q3Values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.10/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Tests or gathers the 3rd quartile values of the data, for both the test and reference data</p>
+<dl class="py method">
+<dt id="fiora.test_modules.Q3Values.make_test">
+<code class="sig-name descname">make_test</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#dict" title="(in Python v3.10)">dict</a><a class="reference internal" href="../_modules/fiora/test_modules.html#Q3Values.make_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.Q3Values.make_test" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.Q3Values.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)">None</a><a class="reference internal" href="../_modules/fiora/test_modules.html#Q3Values.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.Q3Values.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the test and store the results in memory</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.Q3Values.tester">
+<code class="sig-name descname">tester</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)">bool</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)">str</a><span class="p">]</span><a class="reference internal" href="../_modules/fiora/test_modules.html#Q3Values.tester"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.Q3Values.tester" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the data against the suite</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="fiora.test_modules.Q95Values">
+<em class="property">class </em><code class="sig-prename descclassname">fiora.test_modules.</code><code class="sig-name descname">Q95Values</code><a class="reference internal" href="../_modules/fiora/test_modules.html#Q95Values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.Q95Values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.10/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Tests or gathers the 95th percentile values of the data, for both the test and reference data</p>
+<dl class="py method">
+<dt id="fiora.test_modules.Q95Values.make_test">
+<code class="sig-name descname">make_test</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#dict" title="(in Python v3.10)">dict</a><a class="reference internal" href="../_modules/fiora/test_modules.html#Q95Values.make_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.Q95Values.make_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make the test for the suite</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.Q95Values.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)">None</a><a class="reference internal" href="../_modules/fiora/test_modules.html#Q95Values.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.Q95Values.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the test and store the results in memory</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.Q95Values.tester">
+<code class="sig-name descname">tester</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)">bool</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)">str</a><span class="p">]</span><a class="reference internal" href="../_modules/fiora/test_modules.html#Q95Values.tester"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.Q95Values.tester" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the data against the suite</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="fiora.test_modules.StdValues">
+<em class="property">class </em><code class="sig-prename descclassname">fiora.test_modules.</code><code class="sig-name descname">StdValues</code><a class="reference internal" href="../_modules/fiora/test_modules.html#StdValues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.StdValues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.10/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Tests or gathers the standard deviation of the data, for both the test and reference data</p>
+<dl class="py method">
+<dt id="fiora.test_modules.StdValues.make_test">
+<code class="sig-name descname">make_test</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#dict" title="(in Python v3.10)">dict</a><a class="reference internal" href="../_modules/fiora/test_modules.html#StdValues.make_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.StdValues.make_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make the test for the suite</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.StdValues.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)">None</a><a class="reference internal" href="../_modules/fiora/test_modules.html#StdValues.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.StdValues.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the test and store the results in memory</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fiora.test_modules.StdValues.tester">
+<code class="sig-name descname">tester</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)">bool</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)">str</a><span class="p">]</span><a class="reference internal" href="../_modules/fiora/test_modules.html#StdValues.tester"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fiora.test_modules.StdValues.tester" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the data against the suite</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-fiora.vars_and_path">
+<span id="fiora-vars-and-path-module"></span><h2>fiora.vars_and_path module<a class="headerlink" href="#module-fiora.vars_and_path" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-fiora">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-fiora" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Fiora</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributions &amp; Help</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Module Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">fiora package</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">fiora</a><ul>
+      <li>Previous: <a href="modules.html" title="previous chapter">fiora</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, MartinRovang.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/api/fiora.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

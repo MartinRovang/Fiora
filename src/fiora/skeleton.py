@@ -179,7 +179,7 @@ class MeanValues: #<--- Change the name of your test
         data = kwargs["data"] #<--- This is the data that is passed to the metrics
         suite = kwargs["suite"] #<--- This is the suite that defines the test criteria
         if self.__class__.__name__ in suite:
-            self.test_val = float(round(np.mean(data),3)) #<--- This is where the test metric for the target data is defined
+            self.test_val = float(round(np.mean(data),3)) #<--- This is where the test metric for the target data is defined, do not change the name of this variable(!)
             if suite[self.__class__.__name__]["min"] <= self.test_val <= suite[self.__class__.__name__]["max"]: #<--- This is where the test criteria is made
                 return True
             else:
@@ -191,7 +191,6 @@ class MeanValues: #<--- Change the name of your test
         _logger.success(f"Custom test added {vp.module_folder_name}/{kwargs['custom_test']}_fioraT.py, please edit the file to your needs. File must end with _fioraT.py")
 
     if kwargs["validate"]:
-        print(kwargs["validate"])
         path_to_data = kwargs["validate"][1]
         if os.path.exists(path_to_data):
             all_files_nii_compressed = glob.glob(os.path.join(path_to_data, "*.nii.gz"))
@@ -234,7 +233,6 @@ class MeanValues: #<--- Change the name of your test
                             else:
                                 _logger.success(f"Test {key} passed")
                     # logg the ones passed
-                    _logger.info("Complete")
                     _logger.info(f"Number of tests passed: {num_of_tests - num_failed}/{num_of_tests}")
                 else:
                     _logger.error("Suite does not exist")

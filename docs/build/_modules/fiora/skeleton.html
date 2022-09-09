@@ -1,0 +1,348 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>fiora.skeleton &#8212; Fiora 0.0.7.post1.dev1+gaa25854.d20220909 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for fiora.skeleton</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This is the main entry point of the application.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">coloredlogs</span><span class="o">,</span> <span class="nn">logging</span><span class="o">,</span> <span class="nn">verboselogs</span>
+<span class="n">coloredlogs</span><span class="o">.</span><span class="n">install</span><span class="p">()</span>
+<span class="n">verboselogs</span><span class="o">.</span><span class="n">install</span><span class="p">()</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">click</span>
+<span class="kn">from</span> <span class="nn">fiora</span> <span class="kn">import</span> <span class="n">__version__</span>
+<span class="kn">from</span> <span class="nn">rich.console</span> <span class="kn">import</span> <span class="n">Console</span>
+<span class="kn">from</span> <span class="nn">rich.progress</span> <span class="kn">import</span> <span class="n">track</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">rich.prompt</span> <span class="kn">import</span> <span class="n">Prompt</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">fiora.vars_and_path</span> <span class="k">as</span> <span class="nn">vp</span>
+<span class="kn">import</span> <span class="nn">fiora.suit_generator</span> <span class="k">as</span> <span class="nn">sg</span>
+<span class="kn">import</span> <span class="nn">fiora.suit_tester</span> <span class="k">as</span> <span class="nn">st</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Martin Soria Røvang&quot;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;Martin Soria Røvang&quot;</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
+
+<span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="c1"># ---- CLI ----</span>
+<span class="c1"># The functions defined in this section are wrappers around the main Python</span>
+<span class="c1"># API allowing them to be called directly from the terminal as a CLI</span>
+<span class="c1"># executable/script.</span>
+
+
+<div class="viewcode-block" id="setup_logging"><a class="viewcode-back" href="../../api/fiora.html#fiora.skeleton.setup_logging">[docs]</a><span class="k">def</span> <span class="nf">setup_logging</span><span class="p">(</span><span class="n">loglevel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Setup basic logging</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      loglevel (int): minimum loglevel for emitting messages</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">logformat</span> <span class="o">=</span> <span class="s2">&quot;[</span><span class="si">%(asctime)s</span><span class="s2">] </span><span class="si">%(levelname)s</span><span class="s2">:</span><span class="si">%(name)s</span><span class="s2">:</span><span class="si">%(message)s</span><span class="s2">&quot;</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span>
+        <span class="n">level</span><span class="o">=</span><span class="n">loglevel</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="n">logformat</span><span class="p">,</span> <span class="n">datefmt</span><span class="o">=</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span>
+    <span class="p">)</span></div>
+
+
+<span class="nd">@click</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;--init&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Initialize the project&quot;</span><span class="p">,</span> <span class="n">is_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span>
+    <span class="s2">&quot;--datasource&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Add reference data&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">STRING</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">)</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span>
+    <span class="s2">&quot;--suite&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Create a new test suite&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">STRING</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">)</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span>
+    <span class="s2">&quot;--vv&quot;</span><span class="p">,</span>
+    <span class="n">default</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span>
+    <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Enable debug logging&quot;</span><span class="p">,</span>
+    <span class="n">is_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">flag_value</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;--version&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Version of the app&quot;</span><span class="p">,</span> <span class="n">is_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="c1"># validate option takes two string arguments name of suite and path to target data</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span>
+    <span class="s2">&quot;--validate&quot;</span><span class="p">,</span>
+    <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Use a test suite to validate on a target data example: validate suite_name path_to_target_data&quot;</span><span class="p">,</span>
+    <span class="n">nargs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">STRING</span><span class="p">,</span>
+    <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="c1"># custom_test option takes one string arguments name of test</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span>
+    <span class="s2">&quot;--custom_test&quot;</span><span class="p">,</span>
+    <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Create a custom test: custom_test test_name&quot;</span><span class="p">,</span>
+    <span class="n">nargs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">STRING</span><span class="p">,</span>
+    <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Console script for fiora.</span>
+
+<span class="sd">    Argparse:</span>
+<span class="sd">        --init: Initialize the project</span>
+
+<span class="sd">        --datasource: Add reference data</span>
+
+<span class="sd">        --suite: Create a new test suite</span>
+
+<span class="sd">        --vv: Enable debug logging</span>
+
+<span class="sd">        --version: Version of the app</span>
+
+<span class="sd">        validate: Validate a test suite [NAME_OF_SUITE] [PATH_TO_DATA]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">setup_logging</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;vv&quot;</span><span class="p">])</span>
+    <span class="n">console</span> <span class="o">=</span> <span class="n">Console</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Fiora version: &quot;</span><span class="p">,</span> <span class="n">__version__</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;init&quot;</span><span class="p">]:</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd"> ______   __     ______     ______     ______    </span>
+<span class="sd">/\  ___\ /\ \   /\  __ \   /\  == \   /\  __ \   </span>
+<span class="sd">\ \  __\ \ \ \  \ \ \/\ \  \ \  __&lt;   \ \  __ \  </span>
+<span class="sd"> \ \_\    \ \_\  \ \_____\  \ \_\ \_\  \ \_\ \_\ </span>
+<span class="sd">  \/_/     \/_/   \/_____/   \/_/ /_/   \/_/\/_/ </span>
+<span class="sd">                                                 </span>
+<span class="sd">&quot;&quot;&quot;</span><span class="p">,</span>
+            <span class="n">style</span><span class="o">=</span><span class="s2">&quot;bold red&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="c1"># log</span>
+        <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Initializing the project&quot;</span><span class="p">)</span>
+        <span class="c1"># Initialize the project</span>
+        <span class="c1"># Make directory structure</span>
+        <span class="c1"># log</span>
+        <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Building directory structure&quot;</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">vp</span><span class="o">.</span><span class="n">module_folder_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">vp</span><span class="o">.</span><span class="n">module_folder_name</span><span class="si">}</span><span class="s2">/test_suites&quot;</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">vp</span><span class="o">.</span><span class="n">module_folder_name</span><span class="si">}</span><span class="s2">/test_suites/reports&quot;</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">vp</span><span class="o">.</span><span class="n">module_folder_name</span><span class="si">}</span><span class="s2">/validations&quot;</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">vp</span><span class="o">.</span><span class="n">module_folder_name</span><span class="si">}</span><span class="s2">/validations/reports&quot;</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">vp</span><span class="o">.</span><span class="n">module_folder_name</span><span class="si">}</span><span class="s2">/custom_tests&quot;</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># log</span>
+        <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Completed&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;suite&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;suite&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;new&quot;</span><span class="p">:</span>
+            <span class="n">_logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Invalid command for suite&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data_path</span> <span class="o">=</span> <span class="n">Prompt</span><span class="o">.</span><span class="n">ask</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Insert path the suite will be based on (Only works for nii.gz files)&quot;&quot;&quot;</span><span class="p">)</span>
+            <span class="c1">#check if exists</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">data_path</span><span class="p">):</span>
+                <span class="n">all_files_nii_compressed</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="s2">&quot;*.nii.gz&quot;</span><span class="p">))</span>
+                <span class="c1"># feedback how many files</span>
+                <span class="c1"># log</span>
+                <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">all_files_nii_compressed</span><span class="p">)</span><span class="si">}</span><span class="s2"> files&quot;</span><span class="p">)</span>
+                <span class="n">suitename</span> <span class="o">=</span> <span class="n">Prompt</span><span class="o">.</span><span class="n">ask</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Give a name of your test suite&quot;&quot;&quot;</span><span class="p">)</span>
+                <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Creating test suite&quot;</span><span class="p">)</span>
+
+                <span class="c1"># Create a new test suite</span>
+
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_files_nii_compressed</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">_logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;No files found in path&quot;</span><span class="p">)</span>
+                    <span class="k">return</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Complete&quot;</span><span class="p">)</span>
+                    <span class="n">suite</span> <span class="o">=</span> <span class="n">sg</span><span class="o">.</span><span class="n">FioraSuiteGenerator</span><span class="p">(</span><span class="n">all_files_nii_compressed</span><span class="p">,</span> <span class="n">suitename</span><span class="p">,</span> <span class="n">_logger</span><span class="p">)</span>
+                    <span class="n">suite</span><span class="o">.</span><span class="n">catch_metrics</span><span class="p">()</span>
+                    <span class="n">suite</span><span class="o">.</span><span class="n">create_suite</span><span class="p">()</span>
+                    <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Complete&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">_logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Path does not exist&quot;</span><span class="p">)</span>
+                <span class="k">return</span>
+    
+    <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;custom_test&quot;</span><span class="p">]:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">from typing import Union</span>
+
+<span class="s1">class MeanValues: #&lt;--- Change the name of your test</span>
+<span class="s1">    &quot;&quot;&quot;Tests or gathers the mean values of the data, for both the test and reference data&quot;&quot;&quot;</span>
+<span class="s1">    def __init__(self):</span>
+<span class="s1">        &quot;&quot;&quot;Initialize the variables needed for the test, memory is the basic variable for storing the results&quot;&quot;&quot;</span>
+<span class="s1">        self.memory = [] #&lt;--- This is where the individual values from the data are stored</span>
+<span class="s1">    def run(self, **kwargs) -&gt; None:</span>
+<span class="s1">        &quot;&quot;&quot;Run the test and store the results in memory&quot;&quot;&quot;</span>
+<span class="s1">        data = kwargs[&quot;data&quot;] #&lt;--- This is the data that is passed to the metrics</span>
+<span class="s1">        mean_val = np.mean(data) # &lt;--- Change this line to your test metric</span>
+<span class="s1">        self.memory.append(mean_val) #&lt;--- This is where the individual metrics are stored</span>
+<span class="s1">    def make_test(self, **kwargs) -&gt; dict:</span>
+<span class="s1">        &quot;&quot;&quot;Make the test for the suite&quot;&quot;&quot;</span>
+<span class="s1">        return {self.__class__.__name__: {&quot;min&quot;: float(round(min(self.memory),3)), &quot;max&quot;: float(round(max(self.memory),3))}} #&lt;--- This is where the test critera is defined</span>
+<span class="s1">    def tester(self, **kwargs) -&gt; Union[bool, str]:</span>
+<span class="s1">        &quot;&quot;&quot;Test the data against the suite&quot;&quot;&quot;</span>
+<span class="s1">        data = kwargs[&quot;data&quot;] #&lt;--- This is the data that is passed to the metrics</span>
+<span class="s1">        suite = kwargs[&quot;suite&quot;] #&lt;--- This is the suite that defines the test criteria</span>
+<span class="s1">        if self.__class__.__name__ in suite:</span>
+<span class="s1">            self.test_val = float(round(np.mean(data),3)) #&lt;--- This is where the test metric for the target data is defined, do not change the name of this variable(!)</span>
+<span class="s1">            if suite[self.__class__.__name__][&quot;min&quot;] &lt;= self.test_val &lt;= suite[self.__class__.__name__][&quot;max&quot;]: #&lt;--- This is where the test criteria is made</span>
+<span class="s1">                return True</span>
+<span class="s1">            else:</span>
+<span class="s1">                return False</span>
+<span class="s1">        else:</span>
+<span class="s1">            return &quot;N/A&quot;&#39;&#39;&#39;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">vp</span><span class="o">.</span><span class="n">module_folder_name</span><span class="si">}</span><span class="s2">/custom_tests/</span><span class="si">{</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;custom_test&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">_fioraT.py&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+        <span class="n">_logger</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Custom test added </span><span class="si">{</span><span class="n">vp</span><span class="o">.</span><span class="n">module_folder_name</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;custom_test&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">_fioraT.py, please edit the file to your needs. File must end with _fioraT.py&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;validate&quot;</span><span class="p">]:</span>
+        <span class="n">path_to_data</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;validate&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path_to_data</span><span class="p">):</span>
+            <span class="n">all_files_nii_compressed</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path_to_data</span><span class="p">,</span> <span class="s2">&quot;*.nii.gz&quot;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_files_nii_compressed</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">_logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;No files found in path&quot;</span><span class="p">)</span>
+                <span class="k">return</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># log how many found</span>
+                <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">all_files_nii_compressed</span><span class="p">)</span><span class="si">}</span><span class="s2"> file(s) to be tested with suite </span><span class="si">{</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;validate&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">name_of_suite</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;validate&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">vp</span><span class="o">.</span><span class="n">module_folder_name</span><span class="si">}</span><span class="s2">/test_suites/</span><span class="si">{</span><span class="n">name_of_suite</span><span class="si">}</span><span class="s2">.json&quot;</span><span class="p">):</span>
+                    <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Starting validation using suite: </span><span class="si">{</span><span class="n">name_of_suite</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    
+                    <span class="c1"># Validate a test suite</span>
+                    <span class="n">suite</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">DataTester</span><span class="p">(</span><span class="n">name_of_suite</span><span class="p">,</span> <span class="n">all_files_nii_compressed</span><span class="p">,</span> <span class="n">_logger</span><span class="p">)</span>
+                    <span class="n">results</span> <span class="o">=</span> <span class="n">suite</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+
+                    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">vp</span><span class="o">.</span><span class="n">module_folder_name</span><span class="si">}</span><span class="s2">/validations/reports/</span><span class="si">{</span><span class="n">name_of_suite</span><span class="si">}</span><span class="s2">_targetreport.json&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">suite</span><span class="o">.</span><span class="n">testing_values</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+                    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">vp</span><span class="o">.</span><span class="n">module_folder_name</span><span class="si">}</span><span class="s2">/validations/reports/</span><span class="si">{</span><span class="n">name_of_suite</span><span class="si">}</span><span class="s2">_suitereport.json&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+                    <span class="c1"># count number of failed tests</span>
+                    <span class="n">num_failed</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="n">num_of_tests</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                        <span class="n">num_of_tests</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="c1"># if a dict</span>
+                        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
+                                <span class="k">for</span> <span class="n">key2</span><span class="p">,</span> <span class="n">value2</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                                    <span class="k">if</span> <span class="n">value2</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+                                        <span class="n">_logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> failed for </span><span class="si">{</span><span class="n">key2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                                        <span class="n">num_failed</span> <span class="o">+=</span> <span class="mi">1</span>
+                                    <span class="k">else</span><span class="p">:</span>
+                                        <span class="n">_logger</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> passed for </span><span class="si">{</span><span class="n">key2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+                                <span class="n">num_failed</span> <span class="o">+=</span> <span class="mi">1</span>
+                                <span class="n">_logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> failed&quot;</span><span class="p">)</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">_logger</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> passed&quot;</span><span class="p">)</span>
+                    <span class="c1"># logg the ones passed</span>
+                    <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of tests passed: </span><span class="si">{</span><span class="n">num_of_tests</span> <span class="o">-</span> <span class="n">num_failed</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">num_of_tests</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">_logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Suite does not exist&quot;</span><span class="p">)</span>
+                    <span class="k">return</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Fiora</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributions &amp; Help</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/modules.html">Module Reference</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, MartinRovang.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

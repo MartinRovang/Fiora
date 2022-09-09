@@ -12,3 +12,5 @@ pyyaml
 scipy
 coloredlogs
 scikit-image
+verboselogs
+tqdm

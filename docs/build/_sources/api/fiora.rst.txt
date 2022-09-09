@@ -1,0 +1,53 @@
+fiora package
+=============
+
+Submodules
+----------
+
+fiora.skeleton module
+---------------------
+
+.. automodule:: fiora.skeleton
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+fiora.suit\_generator module
+----------------------------
+
+.. automodule:: fiora.suit_generator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+fiora.suit\_tester module
+-------------------------
+
+.. automodule:: fiora.suit_tester
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+fiora.test\_modules module
+--------------------------
+
+.. automodule:: fiora.test_modules
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+fiora.vars\_and\_path module
+----------------------------
+
+.. automodule:: fiora.vars_and_path
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: fiora
+   :members:
+   :undoc-members:
+   :show-inheritance:

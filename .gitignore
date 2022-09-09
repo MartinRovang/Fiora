@@ -53,3 +53,5 @@ MANIFEST
 .conda*/
 .python-version
 Fiora_module
+data
+data_target

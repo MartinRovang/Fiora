@@ -378,7 +378,7 @@ class PercentageForeground:
             return "N/A"
 
 
-class GetNumInfs:
+class NumInfs:
     """Tests or gathers the number of inf values in the data, for both the test and reference data"""
 
     def __init__(self):
@@ -410,7 +410,7 @@ class GetNumInfs:
             return "N/A"
 
 
-class GetNumNans:
+class NumNans:
     """Tests or gathers the number of nan values in the data, for both the test and reference data"""
 
     def __init__(self):
@@ -672,7 +672,6 @@ class DataType:
 
     def make_test(self, **kwargs) -> dict:
         """Make the test for the suite"""
-        print(self.memory)
         return {
             self.__class__.__name__: {
                 "data_types": np.unique(self.memory).tolist(),
@@ -685,7 +684,36 @@ class DataType:
         suite = kwargs["suite"]
         if self.__class__.__name__ in suite:
             self.test_val = str(data.dtype)
-            if data.dtype in suite[self.__class__.__name__]["data_types"]:
+            if self.test_val in suite[self.__class__.__name__]["data_types"]:
+                return True
+            else:
+                return False
+        else:
+            return "N/A"
+
+class StdValues:
+    """Tests or gathers the standard deviation of the data, for both the test and reference data"""
+
+    def __init__(self):
+        """Initialize the variables needed for the test, memory is the basic variable for storing the results"""
+        self.memory = []
+
+    def run(self, **kwargs) -> None:
+        """Run the test and store the results in memory"""
+        data = kwargs["data"]
+        self.memory.append(np.std(data))
+
+    def make_test(self, **kwargs) -> dict:
+        """Make the test for the suite"""
+        return {self.__class__.__name__: {"std_values": self.memory}}
+
+    def tester(self, **kwargs) -> Union[bool, str]:
+        """Test the data against the suite"""
+        data = kwargs["data"]
+        suite = kwargs["suite"]
+        if self.__class__.__name__ in suite:
+            self.test_val = np.std(data)
+            if self.test_val in suite[self.__class__.__name__]["std_values"]:
                 return True
             else:
                 return False

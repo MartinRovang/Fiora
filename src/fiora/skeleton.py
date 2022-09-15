@@ -207,7 +207,6 @@ class MeanValues: #<--- Change the name of your test
                     # Validate a test suite
                     suite = st.DataTester(name_of_suite, all_files_nii_compressed, _logger)
                     results = suite.validate()
-
                     with open(f"{vp.module_folder_name}/validations/reports/{name_of_suite}_targetreport.json", "w") as f:
                         json.dump(suite.testing_values, f, indent=4)
                     with open(f"{vp.module_folder_name}/validations/reports/{name_of_suite}_suitereport.json", "w") as f:
@@ -221,11 +220,9 @@ class MeanValues: #<--- Change the name of your test
                         if isinstance(value, list):
                             for d in value:
                                 for key2, value2 in d.items():
-                                    if value2 == False:
+                                    if value2 == True:
                                         _logger.error(f"Test {key} failed for {key2}")
                                         num_failed += 1
-                                    else:
-                                        _logger.success(f"Test {key} passed for {key2}")
                         else:
                             if value == False:
                                 num_failed += 1

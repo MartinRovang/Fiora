@@ -6,6 +6,7 @@ from typing import Union
 
 import coloredlogs, logging
 import glob
+import json
 
 coloredlogs.install()
 
@@ -38,17 +39,15 @@ class MedianValues:
         suite = kwargs["suite"]
         if self.__class__.__name__ in suite:
             self.test_val = float(round(np.median(data), 3))
-            if (
+            test = (
                 suite[self.__class__.__name__]["min"]
                 <= self.test_val
                 <= suite[self.__class__.__name__]["max"]
-            ):
-                return True
-            else:
-                return False
+            )
+            self.test_val = {"median": self.test_val, "test": test}
+            return test
         else:
             return "N/A"
-
 
 class MeanValues:
     """Tests or gathers the mean values of the data, for both the test and reference data"""
@@ -78,14 +77,13 @@ class MeanValues:
         suite = kwargs["suite"]
         if self.__class__.__name__ in suite:
             self.test_val = float(round(np.mean(data), 3))
-            if (
+            test = (
                 suite[self.__class__.__name__]["min"]
                 <= self.test_val
                 <= suite[self.__class__.__name__]["max"]
-            ):
-                return True
-            else:
-                return False
+            )
+            self.test_val = {"mean": self.test_val, "test": test}
+            return test
         else:
             return "N/A"
 
@@ -115,16 +113,16 @@ class MaxValues:
         """Test the data against the suite"""
         data = kwargs["data"]
         suite = kwargs["suite"]
-        self.test_val = float(round(np.max(data), 3))
         if self.__class__.__name__ in suite:
-            if (
-                suite[self.__class__.__name__]["min"]
-                <= self.test_val
-                <= suite[self.__class__.__name__]["max"]
-            ):
-                return True
-            else:
-                return False
+            self.test_val = float(round(np.max(data), 3))
+            test = (
+                    suite[self.__class__.__name__]["min"]
+                    <= self.test_val
+                    <= suite[self.__class__.__name__]["max"]
+                )
+
+            self.test_val = {"max": self.test_val, "test": test}
+            return test
         else:
             return "N/A"
 
@@ -157,14 +155,13 @@ class MinValues:
         suite = kwargs["suite"]
         if self.__class__.__name__ in suite:
             self.test_val = float(round(np.min(data), 3))
-            if (
+            test = (
                 suite[self.__class__.__name__]["min"]
                 <= self.test_val
                 <= suite[self.__class__.__name__]["max"]
-            ):
-                return True
-            else:
-                return False
+            )
+            self.test_val = {"min": self.test_val, "test": test}
+            return test
         else:
             return "N/A"
 
@@ -197,16 +194,13 @@ class Q05Values:
         suite = kwargs["suite"]
         if self.__class__.__name__ in suite:
             self.test_val = float(round(np.quantile(data, 0.05), 3))
-            if (
+            test = (
                 suite[self.__class__.__name__]["min"]
                 <= self.test_val
                 <= suite[self.__class__.__name__]["max"]
-            ):
-                return True
-            else:
-                return False
-        else:
-            return "N/A"
+            )
+            self.test_val = {"q05": self.test_val, "test": test}
+            return test
 
 
 class Q95Values:
@@ -237,14 +231,13 @@ class Q95Values:
         suite = kwargs["suite"]
         if self.__class__.__name__ in suite:
             self.test_val = float(round(np.quantile(data, 0.95), 3))
-            if (
+            test = (
                 suite[self.__class__.__name__]["min"]
                 <= self.test_val
                 <= suite[self.__class__.__name__]["max"]
-            ):
-                return True
-            else:
-                return False
+            )
+            self.test_val = {"q95": self.test_val, "test": test}
+            return test
         else:
             return "N/A"
 
@@ -277,14 +270,13 @@ class Q1Values:
         suite = kwargs["suite"]
         if self.__class__.__name__ in suite:
             self.test_val = float(round(np.quantile(data, 0.25), 3))
-            if (
+            test = (
                 suite[self.__class__.__name__]["min"]
                 <= self.test_val
                 <= suite[self.__class__.__name__]["max"]
-            ):
-                return True
-            else:
-                return False
+            )
+            self.test_val = {"q1": self.test_val, "test": test}
+            return test
         else:
             return "N/A"
 
@@ -315,14 +307,13 @@ class Q3Values:
         suite = kwargs["suite"]
         if self.__class__.__name__ in suite:
             self.test_val = float(round(np.quantile(data, 0.75), 3))
-            if (
+            test = (
                 suite[self.__class__.__name__]["min"]
                 <= self.test_val
                 <= suite[self.__class__.__name__]["max"]
-            ):
-                return True
-            else:
-                return False
+            )
+            self.test_val = {"q3": self.test_val, "test": test}
+            return test
         else:
             return "N/A"
 
@@ -364,16 +355,16 @@ class PercentageForeground:
             percentage_foreground = foreground_values / (
                 foreground_values + background_values
             )
-            perc_fg = round(percentage_foreground, 3)
+            perc_fg = float(round(percentage_foreground, 3))
             self.test_val = float(perc_fg)
-            if (
+            test = (
                 suite[self.__class__.__name__]["min"]
                 <= self.test_val
                 <= suite[self.__class__.__name__]["max"]
-            ):
-                return True
-            else:
-                return False
+            )
+            self.test_val = {"perc_fg": perc_fg, "test": test}
+            return test
+
         else:
             return "N/A"
 
@@ -402,10 +393,9 @@ class NumInfs:
         if self.__class__.__name__ in suite:
             num_infs = np.isinf(data).sum()
             self.test_val = float(num_infs)
-            if self.test_val == 0:
-                return True
-            else:
-                return False
+            test = self.test_val == 0
+            self.test_val = {"num_infs": self.test_val, "test": test}
+            return test
         else:
             return "N/A"
 
@@ -434,13 +424,11 @@ class NumNans:
         if self.__class__.__name__ in suite:
             num_nans = np.isnan(data).sum()
             self.test_val = float(num_nans)
-            if self.test_val == 0:
-                return True
-            else:
-                return False
+            test = self.test_val == 0
+            self.test_val = {"num_nans": self.test_val, "test": test}
+            return test
         else:
             return "N/A"
-
 
 class GetNumNegatives:
     """Tests or gathers the number of negative values in the data, for both the test and reference data"""
@@ -471,14 +459,13 @@ class GetNumNegatives:
         if self.__class__.__name__ in suite:
             num_negatives = (data < 0).astype("int").sum()
             self.test_val = float(num_negatives)
-            if (
+            test = (
                 suite[self.__class__.__name__]["min"]
                 <= self.test_val
                 <= suite[self.__class__.__name__]["max"]
-            ):
-                return True
-            else:
-                return False
+            )
+            self.test_val = {"num_negatives": self.test_val, "test": test}
+            return test
         else:
             return "N/A"
 
@@ -578,12 +565,11 @@ class OrientiationCheck:
                 "coronal_correlation": float(correlation_axis_1),
                 "axial_correlation": float(correlation_axis_2),
             }
-            if (correlation_axis_0 > correlation_axis_1) and (
+            test = (correlation_axis_0 > correlation_axis_1) and (
                 correlation_axis_0 > correlation_axis_2
-            ):
-                return True
-            else:
-                return False
+            )
+            self.test_val["test"] = str(test)
+            return test
         else:
             return "N/A"
 
@@ -650,9 +636,9 @@ class DuplicateCheck:
                 ids_checks[key] = np.array_equal(data, ref_data)
 
             self.test_val = {
-                key: False for key, value in ids_checks.items() if value == True
+                key: value for key, value in ids_checks.items() if value is True
             }
-            return {key: False for key, value in ids_checks.items() if value == True}
+            return self.test_val
         else:
             return "N/A"
 
@@ -684,10 +670,9 @@ class DataType:
         suite = kwargs["suite"]
         if self.__class__.__name__ in suite:
             self.test_val = str(data.dtype)
-            if self.test_val in suite[self.__class__.__name__]["data_types"]:
-                return True
-            else:
-                return False
+            test = self.test_val in suite[self.__class__.__name__]["data_types"]
+            self.test_val = {"data_type": self.test_val, "test": test}
+            return test
         else:
             return "N/A"
 
@@ -705,17 +690,25 @@ class StdValues:
 
     def make_test(self, **kwargs) -> dict:
         """Make the test for the suite"""
-        return {self.__class__.__name__: {"std_values": self.memory}}
+        return {
+            self.__class__.__name__: {
+                "min": float(round(np.std(self.memory), 3)),
+                "max": float(round(np.std(self.memory), 3)),
+            }
+        }
 
     def tester(self, **kwargs) -> Union[bool, str]:
         """Test the data against the suite"""
         data = kwargs["data"]
         suite = kwargs["suite"]
         if self.__class__.__name__ in suite:
-            self.test_val = np.std(data)
-            if self.test_val in suite[self.__class__.__name__]["std_values"]:
-                return True
-            else:
-                return False
+            self.test_val = float(round(np.std(data)))
+            test = (
+                self.test_val >= suite[self.__class__.__name__]["min"]
+                and self.test_val <= suite[self.__class__.__name__]["max"]
+            )
+            self.test_val = {"std": self.test_val, "test": test}
+            return test
         else:
             return "N/A"
+

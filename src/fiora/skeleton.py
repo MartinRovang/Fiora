@@ -180,10 +180,9 @@ class MeanValues: #<--- Change the name of your test
         suite = kwargs["suite"] #<--- This is the suite that defines the test criteria
         if self.__class__.__name__ in suite:
             self.test_val = float(round(np.mean(data),3)) #<--- This is where the test metric for the target data is defined, do not change the name of this variable(!)
-            if suite[self.__class__.__name__]["min"] <= self.test_val <= suite[self.__class__.__name__]["max"]: #<--- This is where the test criteria is made
-                return True
-            else:
-                return False
+            test = suite[self.__class__.__name__]["min"] <= self.test_val <= suite[self.__class__.__name__]["max"] #<--- This is where the test criteria is made
+            self.test_val = {"MeanValues": self.test_val}
+            return test
         else:
             return "N/A"'''
         with open(f"{vp.module_folder_name}/custom_tests/{kwargs['custom_test']}_fioraT.py", "w") as f:

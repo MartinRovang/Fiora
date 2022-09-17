@@ -44,7 +44,7 @@ class MedianValues:
                 <= self.test_val
                 <= suite[self.__class__.__name__]["max"]
             )
-            self.test_val = {"median": self.test_val, "test": test}
+            self.test_val = {"MedianValues": self.test_val, "test": test}
             return test
         else:
             return "N/A"
@@ -82,7 +82,7 @@ class MeanValues:
                 <= self.test_val
                 <= suite[self.__class__.__name__]["max"]
             )
-            self.test_val = {"mean": self.test_val, "test": test}
+            self.test_val = {"MeanValues": self.test_val, "test": test}
             return test
         else:
             return "N/A"
@@ -121,7 +121,7 @@ class MaxValues:
                     <= suite[self.__class__.__name__]["max"]
                 )
 
-            self.test_val = {"max": self.test_val, "test": test}
+            self.test_val = {"MaxValues": self.test_val, "test": test}
             return test
         else:
             return "N/A"
@@ -160,7 +160,7 @@ class MinValues:
                 <= self.test_val
                 <= suite[self.__class__.__name__]["max"]
             )
-            self.test_val = {"min": self.test_val, "test": test}
+            self.test_val = {"MinValues": self.test_val, "test": test}
             return test
         else:
             return "N/A"
@@ -199,7 +199,7 @@ class Q05Values:
                 <= self.test_val
                 <= suite[self.__class__.__name__]["max"]
             )
-            self.test_val = {"q05": self.test_val, "test": test}
+            self.test_val = {"Q05Values": self.test_val, "test": test}
             return test
 
 
@@ -236,7 +236,7 @@ class Q95Values:
                 <= self.test_val
                 <= suite[self.__class__.__name__]["max"]
             )
-            self.test_val = {"q95": self.test_val, "test": test}
+            self.test_val = {"Q95Values": self.test_val, "test": test}
             return test
         else:
             return "N/A"
@@ -275,7 +275,7 @@ class Q1Values:
                 <= self.test_val
                 <= suite[self.__class__.__name__]["max"]
             )
-            self.test_val = {"q1": self.test_val, "test": test}
+            self.test_val = {"Q1Values": self.test_val, "test": test}
             return test
         else:
             return "N/A"
@@ -312,7 +312,7 @@ class Q3Values:
                 <= self.test_val
                 <= suite[self.__class__.__name__]["max"]
             )
-            self.test_val = {"q3": self.test_val, "test": test}
+            self.test_val = {"Q3Values": self.test_val, "test": test}
             return test
         else:
             return "N/A"
@@ -362,7 +362,7 @@ class PercentageForeground:
                 <= self.test_val
                 <= suite[self.__class__.__name__]["max"]
             )
-            self.test_val = {"perc_fg": perc_fg, "test": test}
+            self.test_val = {"PercentageForeground": perc_fg, "test": test}
             return test
 
         else:
@@ -394,7 +394,7 @@ class NumInfs:
             num_infs = np.isinf(data).sum()
             self.test_val = float(num_infs)
             test = self.test_val == 0
-            self.test_val = {"num_infs": self.test_val, "test": test}
+            self.test_val = {"NumInfs": self.test_val, "test": test}
             return test
         else:
             return "N/A"
@@ -425,7 +425,7 @@ class NumNans:
             num_nans = np.isnan(data).sum()
             self.test_val = float(num_nans)
             test = self.test_val == 0
-            self.test_val = {"num_nans": self.test_val, "test": test}
+            self.test_val = {"NumNans": self.test_val, "test": test}
             return test
         else:
             return "N/A"
@@ -464,7 +464,7 @@ class GetNumNegatives:
                 <= self.test_val
                 <= suite[self.__class__.__name__]["max"]
             )
-            self.test_val = {"num_negatives": self.test_val, "test": test}
+            self.test_val = {"GetNumNegatives": self.test_val, "test": test}
             return test
         else:
             return "N/A"
@@ -671,7 +671,7 @@ class DataType:
         if self.__class__.__name__ in suite:
             self.test_val = str(data.dtype)
             test = self.test_val in suite[self.__class__.__name__]["data_types"]
-            self.test_val = {"data_type": self.test_val, "test": test}
+            self.test_val = {"DataType": self.test_val, "test": test}
             return test
         else:
             return "N/A"
@@ -707,7 +707,7 @@ class StdValues:
                 self.test_val >= suite[self.__class__.__name__]["min"]
                 and self.test_val <= suite[self.__class__.__name__]["max"]
             )
-            self.test_val = {"std": self.test_val, "test": test}
+            self.test_val = {"StdValues": self.test_val, "test": test}
             return test
         else:
             return "N/A"
